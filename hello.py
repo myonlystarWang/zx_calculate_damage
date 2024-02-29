@@ -52,9 +52,11 @@ def render_hello_page():
         st.markdown(":red[注意：]初次进入网站使用伤害计算工具时，需要先进行参数设置。❌️不可直接点击结果模拟页面")
         col1,col2,col3,col4 = st.columns(4)
         with col1:
-            st.image("./img/shuoming1.png",use_column_width=True,caption="在左侧导航栏中选择伤害计算-参数设置")#use_column_width=True,
+            st.image("./img/shuoming1.png",use_column_width=True,caption="在左侧边页面中找到导航选项")#use_column_width=True,
         with col2:
-            st.image("./img/shuoming2.png",use_column_width=True,caption="在左侧导航栏中选择伤害计算-参数设置")#
+            st.image("./img/mobile_shuoming1.jpg",use_column_width=True,caption="手机打开网页时需要点击左上角小三角标志")#
+        with col3:
+            st.image("./img/shuoming2.png",use_column_width=True,caption="选择伤害计算-参数设置")#
         st.markdown(":blue[其他图文说明待补充，请稍后......]")
         
         # col1, col2 = st.columns(2)
