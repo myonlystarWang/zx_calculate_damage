@@ -59,34 +59,35 @@ def skill_gains_calculate(my_attributes, roles_para):
     skill_gains_para = {}
 
     #先遍历roles_para
-    for role_para in roles_para:
+    for role_para in roles_para:    
         if role_para == "天音":
-            skill_gains_para["技能增益_专注_慈航法愿"] = cihang_dict.get(roles_para[role_para].get("天音_技能_慈航法愿", 0), 18)    
+            skill_gains_para["技能增益_专注_慈航法愿"] = cihang_dict.get(roles_para[role_para].get("天音_技能_慈航法愿", False), 18)    
             skill_gains_para["技能增益_气血_摩柯心经"] = roles_para[role_para].get("天音_最大攻击", 0) * moke_dict.get(roles_para[role_para].get("天音_玄烛品质_摩柯心经", 0), 4)  
             skill_gains_para["技能增益_防御_金刚不坏"] = roles_para[role_para].get("天音_真气", 0) * 0.15    
             skill_gains_para["技能增益_防御_金刚不坏2"] = roles_para[role_para].get("天音_真气", 0) * 0.1265    
 
         elif role_para == "天华":
-            skill_gains_para["技能增益_专注_秋声雅韵"] = zz_qiusheng_dict.get(roles_para[role_para].get("天华_技能_秋声雅韵", 0), 35)   
-            skill_gains_para["技能增益_专注_金蛇狂舞"] = zz_jinshe_dict.get(roles_para[role_para].get("天华_技能_金蛇狂舞", 0), 18)     
-            skill_gains_para["技能增益_爆伤_凤求凰"] = round(bs_fqh_dict.get(roles_para[role_para].get("天华_前世职业_凤求凰", 0), 100) + roles_para[role_para].get("天华_真气", 0) / 30000, 2) 
+            skill_gains_para["技能增益_专注_秋声雅韵"] = zz_qiusheng_dict.get(roles_para[role_para].get("天华_技能_秋声雅韵", False), 35)   
+            skill_gains_para["技能增益_防御_秋声雅韵"] = roles_para[role_para].get("天华_最大攻击", 0) * 1.5  
             skill_gains_para["技能增益_爆伤_秋声雅韵"] = 60 + roles_para[role_para].get("天华_真气", 0) / 100000  
+            skill_gains_para["技能增益_专注_金蛇狂舞"] = zz_jinshe_dict.get(roles_para[role_para].get("天华_技能_金蛇狂舞", False), 18)     
+            skill_gains_para["技能增益_爆伤_金蛇狂舞"] = 60 * bool_dict.get(roles_para[role_para].get("天华_技能_金蛇狂舞", False), False)  
+            skill_gains_para["技能增益_爆伤_凤求凰"] = round(bs_fqh_dict.get(roles_para[role_para].get("天华_前世职业_凤求凰", 0), 100) + roles_para[role_para].get("天华_真气", 0) / 30000, 2) 
             skill_gains_para["技能增益_气血_云水雅韵2"] = roles_para[role_para].get("天华_最大攻击", 0) * 2.5  
             skill_gains_para["技能增益_真气_云水雅韵2"] = roles_para[role_para].get("天华_最大攻击", 0) * 5  
-            skill_gains_para["技能增益_防御_秋声雅韵"] = roles_para[role_para].get("天华_最大攻击", 0) * 1.5  
 
         elif role_para == "青罗":
-            skill_gains_para["技能增益_爆伤_研彻晓光"] = 200 * bool_dict.get(roles_para[role_para].get("青罗_技能_研彻晓光", 0), 1)
-            skill_gains_para["技能增益_爆伤_缓分花陌2"] = 80 * bool_dict.get(roles_para[role_para].get("青罗_技能_缓分花陌2", 0), 0)
+            skill_gains_para["技能增益_爆伤_研彻晓光"] = 200 * bool_dict.get(roles_para[role_para].get("青罗_技能_研彻晓光", False), False)
+            skill_gains_para["技能增益_爆伤_缓分花陌2"] = 80 * bool_dict.get(roles_para[role_para].get("青罗_技能_缓分花陌2", False), False)
 
         elif role_para == "画影":
             skill_gains_para["技能增益_专注_凌寒拂霜"] = zz_linghan_dict.get(roles_para[role_para].get("画影_技能_凌寒拂霜", 0), 26) + roles_para[role_para].get("画影_真气", 0) / 400000  
 
         elif role_para == "焚香":
-            skill_gains_para["技能增益_专注_祝融真典2"] = 22 * bool_dict.get(roles_para[role_para].get("焚香_技能_祝融真典2", 0), 1)
+            skill_gains_para["技能增益_专注_祝融真典2"] = 22 * bool_dict.get(roles_para[role_para].get("焚香_技能_祝融真典2", False), False)
 
         elif role_para == "青云":
-            skill_gains_para["技能增益_真气比_五气朝元"] = 56 * bool_dict.get(roles_para[role_para].get("青云_技能_五气朝元", 0), 1)
+            skill_gains_para["技能增益_真气比_五气朝元"] = 56 * bool_dict.get(roles_para[role_para].get("青云_技能_五气朝元", False), False)
 
         elif role_para == "昭冥":
             skill_gains_para["技能增益_真气_附骨生灵2"] = 0.05 * roles_para[role_para].get("昭冥_真气", 0)
@@ -96,7 +97,7 @@ def skill_gains_calculate(my_attributes, roles_para):
             skill_gains_para["技能增益_防御_附骨生灵2"] = 0.05 * roles_para[role_para].get("昭冥_防御", 0)
             skill_gains_para["技能增益_爆伤_附骨生灵2"] = 0.05 * roles_para[role_para].get("昭冥_爆伤", 0)
             skill_gains_para["技能增益_对怪_附骨生灵2"] = 5
-            skill_gains_para["技能增益_专注_日月弘光"] = zz_riyue_dict.get(roles_para[role_para].get("昭冥_技能_日月弘光", 0), 52.5)
+            skill_gains_para["技能增益_专注_日月弘光"] = zz_riyue_dict.get(roles_para[role_para].get("昭冥_技能_日月弘光", False), 52.5)
             skill_gains_para["技能增益_巫咒_日月弘光"] = 22.5 
 
         else:
@@ -163,7 +164,7 @@ def my_gained_attribute_calculate(my_attributes, skill_gains_para, var_gains_par
             new_value = value + \
                         skill_gains_para.get("技能增益_真气_附骨生灵2", 0) + \
                         skill_gains_para.get("技能增益_真气_云水雅韵2", 0) + \
-                        my_attributes.get("主输出_1%真气比对应面板真气", 0) * (number + skill_gains_para.get("技能增益_真气比_云蒸霞蔚", 0) + skill_gains_para.get("技能增益_真气比_太极_乘时", 0) + skill_gains_para.get("技能增益_真气比_五气朝元", 0)) + \
+                        my_attributes.get("主输出_1%真气比面板真气", 0) * (number + skill_gains_para.get("技能增益_真气比_云蒸霞蔚", 0) + skill_gains_para.get("技能增益_真气比_太极_乘时", 0) + skill_gains_para.get("技能增益_真气比_五气朝元", 0)) + \
                         var_gains_para.get("墨雪特效霜情", 0) + \
                         200 + number * 100
             if my_attributes.get("主输出_职业", None) is not None and my_attributes.get("主输出_职业", None) != "鬼王":
@@ -190,7 +191,7 @@ def my_gained_attribute_calculate(my_attributes, skill_gains_para, var_gains_par
         #     new_value = value + \
         #                 skill_gains_para.get("技能增益_气血_附骨生灵2", 0) + \
         #                 max(skill_gains_para.get("技能增益_气血_摩柯心经", 0), skill_gains_para.get("技能增益_气血_云水雅韵2", 0)) + \
-        #                 skill_gains_para.get("主输出_1%气血比对应面板气血", 0) * (var_gains_para.get("经典家族技能等级", 0) + 0) + \
+        #                 skill_gains_para.get("主输出_1%气血比面板气血", 0) * (var_gains_para.get("经典家族技能等级", 0) + 0) + \
         #                 200 + var_gains_para.get("经典家族技能等级", 0) * 100
         else:
             # 其他属性保持不变

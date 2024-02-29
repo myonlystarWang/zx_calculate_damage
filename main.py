@@ -1,8 +1,10 @@
-# main.py
+# Hello.py
 import streamlit as st
-from user_interface import render_setting_page
-from user_interface import render_attributes_page
-from user_interface import render_damage_calculation_page
+from damage_interface import render_setting_page
+from damage_interface import render_attributes_page
+from damage_interface import render_damage_calculation_page
+from kongsang_interface import render_kongsang_page
+from hello import render_hello_page
 import streamlit_option_menu
 from streamlit_option_menu import option_menu
 
@@ -21,10 +23,10 @@ my_attributes_default = {
     '主输出_赤乌品质_大业浮屠': '曦日',
     '主输出_对怪增伤': 4.6,
     '主输出_减爆伤': 1000,
-    '主输出_1%气血比对应面板气血': 2500,
-    '主输出_1%真气比对应面板真气': 2500,
-    '主输出_1%攻击比对应面板攻击': 100,
-    '主输出_1%防御比对应面板防御': 100,
+    '主输出_1%气血比面板气血': 2500,
+    '主输出_1%真气比面板真气': 2500,
+    '主输出_1%攻击比面板攻击': 100,
+    '主输出_1%防御比面板防御': 100,
     '主输出_心法_乘时而化': True,
     '主输出_心法_太极_乘时而化': True,
     '主输出_心法_玄清_乘时而化': True,
@@ -53,12 +55,18 @@ selected_roles_default = ["天音", "天华", "画影", "焚香", "青罗", "青
 
 selected_gains_default = ["九华奠魂曲", "副本赠送爆伤", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级(爆伤)", "经典家族技能等级"]
 
+navi_option = ["🏠欢迎回来","🛠️伤害计算-参数设置","📝伤害计算-属性确认","💻伤害计算-结果模拟","📽️视频合集"]
+
+def update_navi_selectbox():
+    select_navi = st.session_state.get("sidebar_damage_select", None)
+    st.session_state.current_page = select_navi
+
 def initialize_session_state():
     global initialized
     if initialized == False :
         # 这里不能置None，必须给一个指定的值
         if "current_page" not in st.session_state:
-            st.session_state.current_page = "参数设置"
+            st.session_state.current_page = "🏠欢迎回来"
         if "damage_yi" not in st.session_state:
             st.session_state.damage_yi = 0
         if "damage_wan" not in st.session_state:
@@ -90,9 +98,9 @@ def initialize_session_state():
 initialize_session_state()  # 确保 session_state 被初始化
 
 st.set_page_config(
-    page_title="诛仙3伤害计算 - 萝卜",
-    #layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="萝卜的奇幻炼丹炉",
+    layout="wide",
+    initial_sidebar_state="auto"
 )
 # 隐藏右边的菜单以及页脚
 hide_streamlit_style = """
@@ -103,17 +111,6 @@ footer {visibility: hidden;}
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-st.markdown("""
-    <style>
-        .copyright {
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-            font-size: 14px;
-            color: #888; /* 可根据需要更改颜色 */
-            margin-top: 20px; /* 可调整上边距 */
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 def main():
     # 自定义标题容器
@@ -136,22 +133,43 @@ def main():
 
     # elif selected == "伤害计算":
     #     render_damage_calculation_page()        
+    st.sidebar.image('./img/zhuxian_sidebar1.jpg', caption="⭐⭐萝卜的奇幻炼丹炉⭐⭐")#⚒️⚡🎉🎈💡✨📨💌👨‍💻⭕🧪🧙‍♂️🏅🚨🌀🔄ℹ️1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣❄️🦜️🔗🤷🏻🚀👈📊🔎🔍📸🚉🚚📋🌊🏠❔🧰⛏️⚒️🔧💳️📽️📹️💖❤️❌️⛔️🚫
 
-    current_page = st.session_state.get("current_page", "参数设置")
+    st.sidebar.markdown('---')
 
-    if current_page == "参数设置":
+    # # 步骤导引
+    # current_step = st.sidebar.radio("选择当前步骤", ["导入数据文件", "选择主输出职业", "选择组队职业", "设置BOSS属性", "选择输出技能", "选择可变增益项"])
+    # 导航栏
+    with st.sidebar:
+        st.selectbox(
+                    "**选择想看的页面👇**",
+                    options=navi_option, 
+                    key="sidebar_damage_select", 
+                    on_change=update_navi_selectbox,
+                    index=navi_option.index(st.session_state["current_page"])
+                    )
+
+    current_page = st.session_state["current_page"]
+
+    if current_page == "🏠欢迎回来":
+        render_hello_page()
+
+    elif current_page == "🛠️伤害计算-参数设置":
         render_setting_page()
 
-    elif current_page == "属性确认":
+    elif current_page == "📝伤害计算-属性确认":
         render_attributes_page()
 
-    elif current_page == "伤害计算":
+    elif current_page == "💻伤害计算-结果模拟":
         render_damage_calculation_page()
 
-    st.divider()
-    #st.markdown("---")
-    #st.markdown(":star: *萝卜 All Rights Reserved © 2024*")            
-    #st.markdown("<p style='text-align: center;'>&#127775; 萝卜 All Rights Reserved © 2024</p>", unsafe_allow_html=True)
-    st.markdown("<p class='copyright'>&#127775; *萝卜 All Rights Reserved © 2024</p>", unsafe_allow_html=True)
+    elif current_page == "📽️视频合集":
+        render_kongsang_page()
+
+    st.sidebar.divider()
+    st.sidebar.caption('有问题联系我：📧aben008@hotmail.com')
+    st.sidebar.caption('🖼️ 萝卜 All Rights Reserved © 2024')
+    #st.sidebar.markdown("---")
+    #st.sidebar.markdown("<p class='copyright'>🖼️ 萝卜 All Rights Reserved © 2024</p>", unsafe_allow_html=True)
 if __name__ == "__main__":
     main()
