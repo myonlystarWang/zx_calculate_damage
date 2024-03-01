@@ -302,8 +302,8 @@ def render_damage_calculation_page():
         moni_button = st.button(f"**模拟技能伤害**", key="moni", type="primary", use_container_width=True)
         
     with col2:
-        if st.button(f"**返回参数设置**", key="caculation_to_setting", use_container_width=True):
-            st.session_state["current_page"] = "🛠️伤害计算-参数设置"
+        if st.button(f"**返回欢迎页面**", key="caculation_to_setting", use_container_width=True):#返回参数设置
+            st.session_state["current_page"] = "🏠欢迎回来"#"🛠️伤害计算-参数设置"
             st.rerun()
 
     if moni_button:

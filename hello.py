@@ -24,6 +24,10 @@ def update_visit_count():
 
     return visit_count
 
+# def jump_to_setting():
+#     st.session_state["current_page"] = "🛠️伤害计算-参数设置"
+#     st.rerun()
+
 def render_hello_page():
     st.markdown("<h1 style='font-size: 48px; color: #333333; font-weight: bold; '>⭐⭐欢迎来到萝卜的奇幻炼丹炉⭐⭐</h1>", unsafe_allow_html=True) #text-align: center;
     # 在每个页面的 header 下调用该函数
@@ -37,7 +41,7 @@ def render_hello_page():
     st.markdown(f"<span style='font-size:16px; color:#a9a9a9;'><b>📅 2023-02-29 16:00:00</b>&nbsp;&nbsp; &nbsp;&nbsp; <b>🔍 {visit_count}</b></span>", unsafe_allow_html=True)
 
     st.markdown("在这个独特而充满创意的炼丹炉中，我将与你一同探索各种诛仙世界的瑰宝，你将发现关于诛仙3游戏玩法、工具、视频等等的炼丹秘籍，希望你能在这里找到有趣和有用的信息。")
-    st.subheader("🚨 伤害计算使用说明")#💡
+    st.subheader("🚨 伤害计算说明")#💡
 
     st.markdown("伤害计算工具旨在帮助你逐步了解自己角色输出能力以及队伍角色辅助能力，你将可以获得：")
     st.markdown(
@@ -53,19 +57,25 @@ def render_hello_page():
         col1,col2,col3,col4 = st.columns(4)
         with col1:
             st.image("./img/shuoming1.png",use_column_width=True,caption="在左侧边页面中找到导航选项")#use_column_width=True,
+        #with col2:
+        #    st.image("./img/mobile_shuoming1.jpg",use_column_width=True,caption="手机打开网页时需要点击左上角小三角标志")#
         with col2:
-            st.image("./img/mobile_shuoming1.jpg",use_column_width=True,caption="手机打开网页时需要点击左上角小三角标志")#
-        with col3:
             st.image("./img/shuoming2.png",use_column_width=True,caption="选择伤害计算-参数设置")#
         st.markdown(":blue[其他图文说明待补充，请稍后......]")
-        
+
+    # 跳转按钮    
+    if st.button("立即体验", key="jump_to_setting", type="primary"):#🔗
+        st.session_state["current_page"] = "🛠️伤害计算-参数设置"
+        st.rerun()
+
         # col1, col2 = st.columns(2)
         # with col1:
         #     st.info("第一步：设置")
 
         #st.markdown("---")
 
-    st.subheader("⛏️ 其他实用工具链接")#💡
+    st.subheader("⛏️ 实用工具链接")#💡
+    st.markdown("这里搜罗了诛仙3各种实用属性、表格、攻略等，请随意查阅。")
     col1,col2,col3,col4,col5 = st.columns(5)
     with col1:
         with st.expander("BOSS属性"):
@@ -109,8 +119,14 @@ def render_hello_page():
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=88348", label=f":blue[人物传攻略汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             #st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=528855", label=f":blue[PVE辅助技能汇总]", icon=None, help=None, disabled=False, use_container_width=None)
     
-    
-    
+    st.subheader("📽️ 视频合集")
+    st.markdown("各类原创或转载的诛仙3副本开荒、通关视频。")
+
+    # 跳转按钮    
+    if st.button("前往观看", key="jump_to_video", type="primary"):#🔗
+        st.session_state["current_page"] = "📽️视频合集"
+        st.rerun()
+
     st.subheader("💌 仙炉灵草加注")#💡#捐赠支持
     with st.expander("作为一个免费、纯净无广告的网站，能得到大家的喜欢真的是意外又惊喜。由于维护也需要时间和精力。如果经济允许，可以赞助支持一下哦，感谢您的慷慨支持💖") :   
         col1,col2,col3,col4,col5,col6,col7,col8,col9,col10 = st.columns(10)
