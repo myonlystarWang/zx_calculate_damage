@@ -31,10 +31,7 @@ skill_options = {
 profession_options = ["天音", "天华", "画影", "焚香", "青罗", "青云", "昭冥"]
 
 # 可变增益选项
-var_gain_options = ["九华奠魂曲", "副本赠送爆伤", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级(爆伤)", "经典家族技能等级"]
-
-# 默认可变增益选项
-default_var_gain_options = ["九华奠魂曲", "副本赠送爆伤", "三碗不过岗", "进阶家族技能等级(爆伤)", "经典家族技能等级"]
+var_gain_options = ["九华淀魂曲", , "八级雷煌闪", "三味真炎火", "雪琪的祈愿", "副本赠送属性", "龙虎之力", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级(爆伤)", "经典家族技能等级", "星语拔山"]
 
 # 星宿品质选项
 xingxiu_options = ["荧炬", "皓月", "曦日"]
@@ -45,8 +42,12 @@ qianshi_options = ["太昊", "烈山", "其他"]
 # 副本爆伤选项
 fuben_options = ["无赠送", "T16以上", "空桑兽神", "四象七"]
 
+# 副本爆伤选项
+longhu_options = ["龙虎3", "龙虎4"]
+
 # 项链技能等级选项
-ring_level_options = ["1级", "2级", "3级", "4级"]
+#ring_level_options = ["1级", "2级", "3级", "4级"]
+ring_level_options = ["3级", "4级"]
 
 # 家族技能等级选项
 jiazu_level_options = ["1阶", "2阶", "3阶", "4阶", "5阶", "6阶", "7阶", "8阶", "9阶", "10阶", "11阶", "12阶", "13阶", "14阶", "15阶"]
@@ -104,7 +105,7 @@ def render_attributes_page():
     # 删除roles_para中不在selected_roles里的职业，形成一个新的变量传递给skill_gains_calculate函数
     roles_para_copy = copy.deepcopy(st.session_state.roles_para)
     roles_para_filtered = {role: values for role, values in roles_para_copy.items() if role in st.session_state.selected_roles}
-    skill_gains_para = skill_gains_calculate(st.session_state.my_attributes, roles_para_filtered)
+    skill_gains_para = skill_gains_calculate(st.session_state.my_attributes, roles_para_filtered, st.session_state.var_gains_para)
     with st.expander(f"**展开以显示各职业技能增益数值**"):    
         st.json(skill_gains_para)
 
@@ -564,7 +565,7 @@ def gain_attribute_input(attribute):
                     step=step
                     )
         return
-    elif attribute in ["九华奠魂曲"]:
+    elif attribute in ["九华淀魂曲", "三味真炎火", "八级雷煌闪"]:
         step = 10  
         min_value = 110
         max_value = 140
@@ -576,7 +577,7 @@ def gain_attribute_input(attribute):
                     index=ring_level_options.index(st.session_state.var_gains_para[attribute])
                     )
         return
-    elif attribute in ["副本赠送爆伤"]:
+    elif attribute in ["副本赠送属性"]:
         st.selectbox(
                     f"{attribute}",
                     options=fuben_options, 
@@ -585,6 +586,17 @@ def gain_attribute_input(attribute):
                     index=fuben_options.index(st.session_state.var_gains_para[attribute])
                     )
         return
+    
+    elif attribute in ["龙虎之力"]:
+        st.selectbox(
+                    f"{attribute}",
+                    options=longhu_options, 
+                    key=unique_key, 
+                    on_change=partial(update_gains_item, attribute, unique_key),
+                    index=longhu_options.index(st.session_state.var_gains_para[attribute])
+                    )
+        return
+
     elif attribute in ["经典家族技能等级"]:
         step = 1  
         min_value = 0
@@ -618,15 +630,16 @@ def gain_attribute_input(attribute):
         return
 
     elif attribute in ["墨雪特效霜情"]:
-        step = 5000
         st.selectbox(f"{attribute}",options=[20000], key=unique_key, index=0)
-    elif attribute in ["三碗不过岗"]:
-        step = 5000
+
+    elif attribute in ["三碗不过岗", "星语拔山"]:
         st.selectbox(f"{attribute}",options=[20], key=unique_key, index=0)
 
     elif attribute in ["情愫项链技能佳期"]:
-        step = 1
         st.selectbox(f"{attribute}",options=[10], key=unique_key, index=0)
+
+    elif attribute in ["雪琪的祈愿"]:
+        st.selectbox(f"{attribute}",options=[50], key=unique_key, index=0)
 
     return 
 
@@ -717,6 +730,9 @@ def set_role_attributes(prefix):
         with col5:
             st.text('法宝技能是否+1')
             role_attribute_input(prefix,"技能_秋声雅韵")
+        with col5:
+            st.text('法宝技能是否+1')
+            role_attribute_input(prefix,"技能_鸣泉雅韵")
 
     elif prefix == "画影":
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
@@ -782,6 +798,9 @@ def set_role_attributes(prefix):
                 role_attribute_input(prefix,"赤乌品质_森罗削空斩")
             elif selected_output == "涅羽":
                 role_attribute_input(prefix,"赤乌品质_大业浮屠")
+            elif selected_output == "鬼王":
+                st.text('法宝技能是否+1')
+                role_attribute_input(prefix,"技能_锐金咒")
                         
         with col6:
             role_attribute_input(prefix,"爆伤")
