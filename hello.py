@@ -63,6 +63,19 @@ def render_hello_page():
             st.image("./img/shuoming2.png",use_column_width=True,caption="选择伤害计算-参数设置")#
         st.markdown(":blue[其他图文说明待补充，请稍后......]")
 
+    with st.expander("版本更新说明"):   
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.markdown("**新增内容：**")
+        st.markdown("· 添加辅助职业：英招、百灵、九黎、鬼王及其对应的技能")
+        st.markdown("· 添加可变技能增益项：八级雷煌闪、三味真炎火、雪琪的祈愿、龙虎之力、星语拔山")
+        st.markdown("**修改内容：**")
+        st.markdown("· 修改太昊、惊岚、涅羽技能附加伤害数值")
+        st.markdown("· 修改可变增益项的增删逻辑BUG，该BUG会导致删除的可变增益项仍然生效")
+
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.0.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.markdown("**新增内容：**")
+        st.markdown("· 初始创建")
+
     # 跳转按钮    
     if st.button("立即体验", key="jump_to_setting", type="primary"):#🔗
         st.session_state["current_page"] = "🛠️伤害计算-参数设置"

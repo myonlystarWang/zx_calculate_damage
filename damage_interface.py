@@ -31,7 +31,7 @@ skill_options = {
 profession_options = ["天音", "天华", "昭冥", "画影", "鬼王", "焚香", "青罗", "青云", "英招", "九黎", "百灵"]
 
 # 可变增益选项
-var_gain_options = ["九华淀魂曲" , "八级雷煌闪", "三味真炎火", "雪琪的祈愿", "副本赠送属性", "龙虎之力", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级(爆伤)", "经典家族技能等级", "星语拔山"]
+var_gain_options = ["九华淀魂曲" , "八级雷煌闪", "三味真炎火", "雪琪的祈愿", "副本赠送属性", "龙虎之力", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级", "经典家族技能等级", "星语拔山"]
 
 # 星宿品质选项
 xingxiu_options = ["荧炬", "皓月", "曦日"]
@@ -462,15 +462,18 @@ def render_setting_page():
     # 选择组队职业（多选框）
     st.subheader(f"选择组队职业")
     #这里判断如果主C是鬼王，组队职业里就不要鬼王了，同时需要看增益中是否还有鬼王
-    if selected_output == "鬼王":
-        # 如果selected_output是“鬼王”，并且“鬼王”在列表中，则移除
-        if '鬼王' in st.session_state.selected_roles:
-            st.session_state.selected_roles.remove('鬼王')
-    else:
-        # 如果selected_output不是“鬼王”，并且“鬼王”不在列表中，则添加
-        if '鬼王' not in st.session_state.selected_roles:
-            st.session_state.selected_roles.append('鬼王')
-            
+    # print(st.session_state.selected_roles)
+    # if selected_output == "鬼王":
+    #     # 如果selected_output是“鬼王”，并且“鬼王”在列表中，则移除
+    #     if '鬼王' in st.session_state.selected_roles:
+    #         st.session_state.selected_roles.remove('鬼王')
+    #         profession_options.remove('鬼王')
+    # else:
+    #     # 如果selected_output不是“鬼王”，并且“鬼王”不在列表中，则添加
+    #     if '鬼王' not in st.session_state.selected_roles and st.session_state.selected_roles != []:
+    #         st.session_state.selected_roles.append('鬼王')
+    #         profession_options.append('鬼王')
+
     st.multiselect(
                 ":green[*(选择一个或多个组队职业并在下方修改属性)*]", 
                 profession_options, 
@@ -665,7 +668,7 @@ def gain_attribute_input(attribute):
                 #step=step
                 )
         return
-    elif attribute in ["进阶家族技能等级(爆伤)"]:
+    elif attribute in ["进阶家族技能等级"]:
         step = 0.1  
         min_value = 0.0
         max_value = 30.0
@@ -740,7 +743,7 @@ def skill_attribute_input(selected_skill, attribute, help_text=None):
 
 def set_role_attributes(prefix):
     if prefix == "BOSS":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             # 只在 BOSS 类型下显示 "减爆伤" 属性，单独一列
             role_attribute_input(prefix,"气血")
@@ -756,7 +759,7 @@ def set_role_attributes(prefix):
             role_attribute_input(prefix, "伤害压缩百分比", disabled=True)
    
     elif prefix == "天音":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             role_attribute_input(prefix,"真气")
         with col2:
@@ -768,7 +771,7 @@ def set_role_attributes(prefix):
             role_attribute_input(prefix,"技能_慈航法愿")
 
     elif prefix == "天华":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             role_attribute_input(prefix,"真气")
         with col2:
@@ -786,7 +789,7 @@ def set_role_attributes(prefix):
             role_attribute_input(prefix,"技能_鸣泉雅韵")
 
     elif prefix == "画影":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             role_attribute_input(prefix,"真气")
         with col2:
@@ -794,12 +797,15 @@ def set_role_attributes(prefix):
             role_attribute_input(prefix,"技能_凌寒拂霜")
 
     elif prefix == "鬼王":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
-        with col1:
-            role_attribute_input(prefix,"真气")
+        if selected_output == "鬼王":
+            pass
+        else:
+            col1, col2, col3, col4, col5, col6, col7= st.columns(7)
+            with col1:
+                role_attribute_input(prefix,"真气")
 
     elif prefix == "昭冥":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             role_attribute_input(prefix,"气血")
         with col2:
@@ -817,26 +823,26 @@ def set_role_attributes(prefix):
             role_attribute_input(prefix,"技能_日月弘光")
 
     elif prefix == "青罗":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             role_attribute_input(prefix,"技能_研彻晓光")
         with col2:
             role_attribute_input(prefix,"技能_缓分花陌2")
 
     elif prefix == "焚香":
-        # col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        # col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         # with col1:
         #     role_attribute_input(prefix,"技能_祝融真典2")
         pass
 
     elif prefix == "青云":
-        # col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        # col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         # with col1:
         #     role_attribute_input(prefix,"技能_五气朝元")
         pass
 
     elif prefix == "百灵":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7= st.columns(7)
         with col1:
             st.text('法宝技能是否+1')
             role_attribute_input(prefix,"技能_灵雨续春")

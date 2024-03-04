@@ -252,7 +252,7 @@ def my_gained_attribute_calculate(my_attributes, skill_gains_para, var_gains_par
             new_value = value + \
                         var_gains_para.get("法宝融合爆伤", 0) + \
                         bs_jiuhua_dict.get(var_gains_para.get("九华淀魂曲", 0), 0) + \
-                        var_gains_para.get("进阶家族技能等级(爆伤)", 0.0) + \
+                        var_gains_para.get("进阶家族技能等级", 0.0) + \
                         bs_zengsong_dict.get(var_gains_para.get("副本赠送属性", 0), 0) + \
                         var_gains_para.get("情愫项链技能佳期", 0) + \
                         skill_gains_para.get("技能增益_爆伤_附骨生灵2", 0) + \
