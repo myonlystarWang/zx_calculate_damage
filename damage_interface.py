@@ -2,7 +2,7 @@
 import streamlit as st
 from calculator import calculate_basic_damage
 from calculator import my_gained_attribute_calculate
-from calculator import skill_gains_calculate
+from calculator import roles_skill_gains_calculate, all_skill_gains_calculate
 import yaml
 from tkinter import filedialog
 from functools import partial
@@ -28,10 +28,10 @@ skill_options = {
         "涅羽": {"values": ["大业浮屠·赤乌"]},
     }
 # 职业选项
-profession_options = ["天音", "天华", "画影", "焚香", "青罗", "青云", "昭冥"]
+profession_options = ["天音", "天华", "昭冥", "画影", "鬼王", "焚香", "青罗", "青云", "英招", "九黎", "百灵"]
 
 # 可变增益选项
-var_gain_options = ["九华淀魂曲", , "八级雷煌闪", "三味真炎火", "雪琪的祈愿", "副本赠送属性", "龙虎之力", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级(爆伤)", "经典家族技能等级", "星语拔山"]
+var_gain_options = ["九华淀魂曲" , "八级雷煌闪", "三味真炎火", "雪琪的祈愿", "副本赠送属性", "龙虎之力", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级(爆伤)", "经典家族技能等级", "星语拔山"]
 
 # 星宿品质选项
 xingxiu_options = ["荧炬", "皓月", "曦日"]
@@ -54,12 +54,12 @@ jiazu_level_options = ["1阶", "2阶", "3阶", "4阶", "5阶", "6阶", "7阶", "
 
 # 技能输出字典
 skills_detail_options = {
-        "附加本体攻击百分比": {"step": 1, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 240, "苍龙煞": 240, "银鳞玄冰": 290, "未名神通": 168, "九变": 130, "大业浮屠·赤乌": 340, "森罗削空斩·赤乌": 400, "天地绝神通": 100}},
+        "附加本体攻击百分比": {"step": 1, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 240, "苍龙煞": 240, "银鳞玄冰": 290, "未名神通": 168, "九变": 130, "大业浮屠·赤乌": 340, "森罗削空斩·赤乌": 400, "天地绝神通": 200}},
         "附加防御上限百分比": {"step": 10, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 0, "银鳞玄冰": 0, "未名神通": 400, "九变": 0, "大业浮屠·赤乌": 0, "森罗削空斩·赤乌": 0, "天地绝神通": 0}},
-        "附加气血上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 48, "银鳞玄冰": 40, "未名神通": 0, "九变": 20, "大业浮屠·赤乌": 80, "森罗削空斩·赤乌": 12, "天地绝神通": 100}},
-        "附加真气上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 48, "苍龙煞": 0, "银鳞玄冰": 40, "未名神通": 15, "九变": 20, "大业浮屠·赤乌": 40, "森罗削空斩·赤乌": 12, "天地绝神通": 100}},
+        "附加气血上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 48, "银鳞玄冰": 40, "未名神通": 0, "九变": 20, "大业浮屠·赤乌": 80, "森罗削空斩·赤乌": 12, "天地绝神通": 26}},
+        "附加真气上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 48, "苍龙煞": 0, "银鳞玄冰": 40, "未名神通": 15, "九变": 20, "大业浮屠·赤乌": 40, "森罗削空斩·赤乌": 12, "天地绝神通": 26}},
         "附加爆伤": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 100, "苍龙煞": 100, "银鳞玄冰": 100, "未名神通": 100, "九变": 0, "大业浮屠·赤乌": 50, "森罗削空斩·赤乌": 100, "天地绝神通": 100}},
-        "附加固定攻击值": {"step": 10, "default": 300, "min": 0, "max": 10000, "values": {"苍龙玄": 4000, "苍龙煞": 4000, "银鳞玄冰": 6000, "未名神通": 2720, "九变": 0, "大业浮屠·赤乌": 5000, "森罗削空斩·赤乌": 4800, "天地绝神通": 100}},
+        "附加固定攻击值": {"step": 10, "default": 300, "min": 0, "max": 10000, "values": {"苍龙玄": 4000, "苍龙煞": 4000, "银鳞玄冰": 6000, "未名神通": 2720, "九变": 0, "大业浮屠·赤乌": 5000, "森罗削空斩·赤乌": 4800, "天地绝神通": 2750}},
     }
 
 # 第二页显示主输出的键
@@ -86,7 +86,7 @@ def render_attributes_page():
 
     st.subheader("已选择职业项")
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns([1,2,1])
     with col1:
     # 显示职业
         st.markdown("**主输出职业:**")
@@ -102,12 +102,57 @@ def render_attributes_page():
 
     # 显示所有技能增益
     st.subheader("技能增益项")
+   
     # 删除roles_para中不在selected_roles里的职业，形成一个新的变量传递给skill_gains_calculate函数
     roles_para_copy = copy.deepcopy(st.session_state.roles_para)
     roles_para_filtered = {role: values for role, values in roles_para_copy.items() if role in st.session_state.selected_roles}
-    skill_gains_para = skill_gains_calculate(st.session_state.my_attributes, roles_para_filtered, st.session_state.var_gains_para)
-    with st.expander(f"**展开以显示各职业技能增益数值**"):    
-        st.json(skill_gains_para)
+
+    # 删除var_gains_para中不在selected_gains里的增益项，形成一个新的变量传递给skill_gains_calculate函数
+    var_gains_para_copy = copy.deepcopy(st.session_state.var_gains_para)
+    var_gains_para_filtered = {role: values for role, values in var_gains_para_copy.items() if role in st.session_state.selected_gains}
+
+    roles_skill_gains_para = roles_skill_gains_calculate(st.session_state.my_attributes, roles_para_filtered, var_gains_para_filtered)
+    skill_gains_para = all_skill_gains_calculate(st.session_state.my_attributes, roles_skill_gains_para, var_gains_para_filtered)
+
+    # 按不同增益分开展示
+    with st.expander(f"**展开以显示各类增益数值**"):   
+        st.markdown("**已选择的可变增益项:**")
+        formatted_gains = " ".join([f"{gain}" for gain in st.session_state.selected_gains])
+        st.text(f"{formatted_gains}")
+        
+        # 分类后的变量
+        skill_categories = {}
+        # 遍历原始字典，按照不同类别分类
+        for key, value in skill_gains_para.items():
+            # 获取技能增益的类型（攻击、防御、真气、爆伤等）
+            skill_type = key.split("_")[1]
+            
+            # 构建对应类型的字典，如果还没有创建
+            if skill_type not in skill_categories:
+                skill_categories[skill_type] = {}
+            
+            # 将键值对添加到相应的变量中
+            skill_categories[skill_type][key] = value        
+       
+        # 将每一个分离出来的变量分列在不同列中        
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.json(skill_categories.get("攻击", {}))
+            st.json(skill_categories.get("攻击比", {}))
+        with col2:
+            st.json(skill_categories.get("气血", {}))
+            st.json(skill_categories.get("气血比", {}))
+            st.json(skill_categories.get("真气", {}))
+            st.json(skill_categories.get("真气比", {}))
+            st.json(skill_categories.get("对怪", {}))
+        with col3:
+            st.json(skill_categories.get("防御", {}))
+            st.json(skill_categories.get("防御比", {}))
+            st.json(skill_categories.get("巫咒", {}))            
+        with col4:
+            st.json(skill_categories.get("爆伤", {}))
+            st.json(skill_categories.get("专注", {}))
+
 
     # 显示主输出满增益属性
     # st.markdown("**主输出御宝状态属性:**")
@@ -376,10 +421,6 @@ def render_setting_page():
     # # 使用st.markdown显示进度条
     # st.markdown(progress_bar_html, unsafe_allow_html=True)
 
-    # 为图片增加边框背景
-    #st.markdown("<style> img { border: 2px solid #333; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); } </style>", unsafe_allow_html=True)
-    #st.image('zhuxian.jpeg', use_column_width = True)#caption='图片来源自www.baidu.com'
-    #st.markdown("<h1 style='text-align: left; background-color: #663399; color: #ffffff; padding: 10px;'>Step1: 参数设置</h1>", unsafe_allow_html=True)
     st.markdown("<h1 style='font-size: 40px; color: #333333; font-weight: bold; '>🛠️ 参数设置</h1>", unsafe_allow_html=True) #text-align: center;
     st.subheader("导入数据文件")
 
@@ -420,6 +461,16 @@ def render_setting_page():
 
     # 选择组队职业（多选框）
     st.subheader(f"选择组队职业")
+    #这里判断如果主C是鬼王，组队职业里就不要鬼王了，同时需要看增益中是否还有鬼王
+    if selected_output == "鬼王":
+        # 如果selected_output是“鬼王”，并且“鬼王”在列表中，则移除
+        if '鬼王' in st.session_state.selected_roles:
+            st.session_state.selected_roles.remove('鬼王')
+    else:
+        # 如果selected_output不是“鬼王”，并且“鬼王”不在列表中，则添加
+        if '鬼王' not in st.session_state.selected_roles:
+            st.session_state.selected_roles.append('鬼王')
+            
     st.multiselect(
                 ":green[*(选择一个或多个组队职业并在下方修改属性)*]", 
                 profession_options, 
@@ -431,7 +482,7 @@ def render_setting_page():
     # 为每个职业设置属性
     for selected_class in st.session_state.selected_roles:
         with st.expander(f"**填写{selected_class}属性：**"):
-            if selected_class in ["天音", "天华", "昭冥", "画影"]:
+            if selected_class in ["天音", "天华", "昭冥", "画影", "鬼王"]:
                 st.caption(f':green[*(以下填写{selected_class}满状态属性)*]') 
             else:
                 pass
@@ -481,8 +532,8 @@ def render_setting_page():
                 var_gain_options, 
                 key="selected_gains_multiselect", 
                 on_change=update_selected_gains,
-                default = st.session_state.selected_gains, 
-                help="选择一个或多个增益项目并在下方修改属性")
+                default = st.session_state.selected_gains
+                )
 
     # 为每个可变增益项设置属性
     with st.expander(f"**可变增益参数**", expanded = False):
@@ -730,7 +781,7 @@ def set_role_attributes(prefix):
         with col5:
             st.text('法宝技能是否+1')
             role_attribute_input(prefix,"技能_秋声雅韵")
-        with col5:
+        with col6:
             st.text('法宝技能是否+1')
             role_attribute_input(prefix,"技能_鸣泉雅韵")
 
@@ -741,6 +792,12 @@ def set_role_attributes(prefix):
         with col2:
             st.text('法宝技能是否+1')
             role_attribute_input(prefix,"技能_凌寒拂霜")
+
+    elif prefix == "鬼王":
+        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        with col1:
+            role_attribute_input(prefix,"真气")
+
     elif prefix == "昭冥":
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
         with col1:
@@ -767,14 +824,28 @@ def set_role_attributes(prefix):
             role_attribute_input(prefix,"技能_缓分花陌2")
 
     elif prefix == "焚香":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
-        with col1:
-            role_attribute_input(prefix,"技能_祝融真典2")
+        # col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        # with col1:
+        #     role_attribute_input(prefix,"技能_祝融真典2")
+        pass
 
     elif prefix == "青云":
+        # col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+        # with col1:
+        #     role_attribute_input(prefix,"技能_五气朝元")
+        pass
+
+    elif prefix == "百灵":
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
         with col1:
-            role_attribute_input(prefix,"技能_五气朝元")
+            st.text('法宝技能是否+1')
+            role_attribute_input(prefix,"技能_灵雨续春")
+
+    elif prefix == "英招":
+        pass
+
+    elif prefix == "九黎":
+        pass
 
     else:        
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
@@ -882,13 +953,20 @@ def role_attribute_input(prefix, attribute, disabled = False):
         min_value = 0
         max_value = 900
     elif "技能" in attribute:
-        st.checkbox(
-                f"{attribute}",
-                value=st.session_state.roles_para[prefix][f"{prefix}_{attribute}"], 
-                #on_change = update_checkbox_value(prefix, attribute, unique_key),
-                on_change = partial(update_checkbox_value, prefix, attribute, unique_key),
-                key=unique_key
-                )
+        if prefix == "主输出":
+            st.checkbox(
+                    f"{attribute}",
+                    value=st.session_state.my_attributes[f"{prefix}_{attribute}"], 
+                    on_change = partial(update_checkbox_value, prefix, attribute, unique_key),
+                    key=unique_key
+                    )
+        else:
+            st.checkbox(
+                    f"{attribute}",
+                    value=st.session_state.roles_para[prefix][f"{prefix}_{attribute}"], 
+                    on_change = partial(update_checkbox_value, prefix, attribute, unique_key),
+                    key=unique_key
+                    )
         return 
     elif "心法" in attribute:
         if attribute in ["心法_玄清_乘时而化", "心法_般若_银鳞玄冰", "心法_幽录_银鳞玄冰"]:
