@@ -41,7 +41,7 @@ def render_hello_page():
     st.markdown(f"<span style='font-size:16px; color:#a9a9a9;'><b>📅 2023-02-29 16:00:00</b>&nbsp;&nbsp; &nbsp;&nbsp; <b>🔍 {visit_count}</b></span>", unsafe_allow_html=True)
 
     st.markdown("在这个独特而充满创意的炼丹炉中，我将与你一同探索各种诛仙世界的瑰宝，你将发现关于诛仙3游戏玩法、工具、视频等等的炼丹秘籍，希望你能在这里找到有趣和有用的信息。")
-    st.subheader("🚨 伤害计算说明")#💡
+    st.subheader("🚨 伤害计算")#💡
 
     st.markdown("伤害计算工具旨在帮助你逐步了解自己角色输出能力以及队伍角色辅助能力，你将可以获得：")
     st.markdown(
@@ -64,6 +64,16 @@ def render_hello_page():
         st.markdown(":blue[其他图文说明待补充，请稍后......]")
 
     with st.expander("版本更新说明"):   
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.1</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.markdown("**新增内容：**")
+        st.markdown("· 增加从主输出御宝白状态计算其满状态攻击值、气血值、防御值")
+        st.markdown("**修改内容：**")
+        st.markdown("· 部分技能和增益计算有误，已修正")
+        st.markdown("**敬请期待：**")
+        st.markdown("· 太昊、惊岚、涅羽的技能伤害计算")
+        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
+        st.markdown("· 400万气血真气限制开关")
+
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.markdown("**新增内容：**")
         st.markdown("· 添加辅助职业：英招、百灵、九黎、鬼王及其对应的技能")
@@ -87,7 +97,7 @@ def render_hello_page():
 
         #st.markdown("---")
 
-    st.subheader("⛏️ 实用工具链接")#💡
+    st.subheader("⛏️ 实用工具")#💡
     st.markdown("这里搜罗了诛仙3各种实用属性、表格、攻略等，请随意查阅。")
     col1,col2,col3,col4,col5 = st.columns(5)
     with col1:
@@ -111,6 +121,7 @@ def render_hello_page():
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=89245", label=f":blue[阵灵和聚灵消耗一览表]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=93166", label=f":blue[贺岁时装技能汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=86074", label=f":blue[星宿系统星辰属性及升星增益表]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://www.bilibili.com/read/cv25048840/", label=f":blue[经典&进阶家族技能满级效果]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=88691&highlight=%E5%9B%9B%E4%BB%A3", label=f":blue[全职业四代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=387604&extra=page%3D1", label=f":blue[全职业三代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=588740&highlight=%E5%BF%83%E6%B3%95", label=f":blue[全职业心法五代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
@@ -140,7 +151,7 @@ def render_hello_page():
         st.session_state["current_page"] = "📽️视频合集"
         st.rerun()
 
-    st.subheader("💌 仙炉灵草加注")#💡#捐赠支持
+    st.subheader("💌 仙炉加注")#💡#捐赠支持
     with st.expander("作为一个免费、纯净无广告的网站，能得到大家的喜欢真的是意外又惊喜。由于维护也需要时间和精力。如果经济允许，可以赞助支持一下哦，感谢您的慷慨支持💖") :   
         col1,col2,col3,col4,col5,col6,col7,col8,col9,col10 = st.columns(10)
 

@@ -53,6 +53,7 @@ ring_level_options = ["3级", "4级"]
 jiazu_level_options = ["1阶", "2阶", "3阶", "4阶", "5阶", "6阶", "7阶", "8阶", "9阶", "10阶", "11阶", "12阶", "13阶", "14阶", "15阶"]
 
 # 技能输出字典
+#仙涅羽赤乌多50%攻击  10%气血  5%真气
 skills_detail_options = {
         "附加本体攻击百分比": {"step": 1, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 240, "苍龙煞": 240, "银鳞玄冰": 290, "未名神通": 168, "九变": 130, "大业浮屠·赤乌": 340, "森罗削空斩·赤乌": 400, "天地绝神通": 200}},
         "附加防御上限百分比": {"step": 10, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 0, "银鳞玄冰": 0, "未名神通": 400, "九变": 0, "大业浮屠·赤乌": 0, "森罗削空斩·赤乌": 0, "天地绝神通": 0}},
@@ -69,6 +70,7 @@ keys_to_display = [
     "主输出_最小攻击",
     "主输出_最大攻击",
     "主输出_防御",
+    "主输出_自身防御力",    
     "主输出_爆伤",
     "主输出_对怪增伤",
     "主输出_减爆伤",
@@ -144,21 +146,22 @@ def render_attributes_page():
             st.json(skill_categories.get("气血比", {}))
             st.json(skill_categories.get("真气", {}))
             st.json(skill_categories.get("真气比", {}))
-            st.json(skill_categories.get("对怪", {}))
         with col3:
             st.json(skill_categories.get("防御", {}))
+            st.json(skill_categories.get("自身防御力", {}))
             st.json(skill_categories.get("防御比", {}))
-            st.json(skill_categories.get("巫咒", {}))            
+            st.json(skill_categories.get("对怪", {}))
         with col4:
             st.json(skill_categories.get("爆伤", {}))
             st.json(skill_categories.get("专注", {}))
+            st.json(skill_categories.get("巫咒", {}))            
 
 
     # 显示主输出满增益属性
     # st.markdown("**主输出御宝状态属性:**")
     # st.json(st.session_state.my_attributes)
     st.subheader("主输出满增益属性")
-    my_gain_attributes = my_gained_attribute_calculate(st.session_state.my_attributes, skill_gains_para, st.session_state.var_gains_para)
+    my_gain_attributes = my_gained_attribute_calculate(st.session_state.my_attributes, skill_gains_para, st.session_state.var_gains_para, skill_categories)
     #st.json(my_gain_attributes)
 
     # 从原始数据中提取要显示的部分
@@ -446,7 +449,7 @@ def render_setting_page():
 
     #先选择主输出职业
     selected_output = st.radio(
-                            ":green[*(目前仅测试了仙逐霜)*]", 
+                            ":green[*(目前仅测试了仙逐霜、鬼王)*]", 
                             output_options, 
                             key="output_radio", 
                             on_change=update_prof_index,
@@ -876,13 +879,18 @@ def set_role_attributes(prefix):
             elif selected_output == "涅羽":
                 role_attribute_input(prefix,"赤乌品质_大业浮屠")
             elif selected_output == "鬼王":
-                st.text('法宝技能是否+1')
-                role_attribute_input(prefix,"技能_锐金咒")
-                        
+                role_attribute_input(prefix,"自身防御力")                        
         with col6:
             role_attribute_input(prefix,"爆伤")
+            if selected_output == "鬼王":
+                role_attribute_input(prefix,"玄烛品质_痴情咒")
+            
         with col7:
             role_attribute_input(prefix,"对怪增伤")#"属性面板滚轮向下即可看到【对怪物增伤】"
+            if selected_output == "鬼王":
+                st.text('法宝技能是否+1')
+                role_attribute_input(prefix,"技能_锐金咒")
+
         with col8:
             role_attribute_input(prefix,"减爆伤", True)
 
@@ -927,7 +935,7 @@ def role_attribute_input(prefix, attribute, disabled = False):
     elif attribute in ["防御","御宝状态防御","满状态防御"]:
         step = 500  # 设置为500
         min_value = 0
-        max_value = 500000
+        max_value = 100000
     elif attribute in ["最小攻击", "最大攻击", "御宝状态最小攻击", "御宝状态最大攻击", "满状态最小攻击", "满状态最大攻击"]:
         step = 500  # 设置为500
         min_value = 0
@@ -937,6 +945,11 @@ def role_attribute_input(prefix, attribute, disabled = False):
         min_value = 0
         max_value = 500
         help = "通过装卸称号、荧惑、重华产生的属性变化来计算1%百分比对应的数值"
+    elif attribute in ["自身防御力"]:
+        step = 500  # 10
+        min_value = 0
+        max_value = 200000
+        help = "切换到防御套后记录面板防御值，点击万法不侵或枯木咒后记录面版防御值，两者做差除以3或2.5就是自身防御力"
     elif attribute in ["1%气血比面板气血", "1%真气比面板真气"]:
         step = 100  # 100
         min_value = 0
