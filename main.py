@@ -3,7 +3,7 @@ import streamlit as st
 from damage_interface import render_setting_page
 from damage_interface import render_attributes_page
 from damage_interface import render_damage_calculation_page
-from kongsang_interface import render_kongsang_page
+from video_interface import render_video_page
 from hello import render_hello_page
 import streamlit_option_menu
 from streamlit_option_menu import option_menu
@@ -176,7 +176,7 @@ def main():
         render_damage_calculation_page()
 
     elif current_page == "📽️视频合集":
-        render_kongsang_page()
+        render_video_page()
 
     st.sidebar.divider()
     st.sidebar.caption('有问题联系我：📧aben008@hotmail.com')

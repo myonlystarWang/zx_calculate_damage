@@ -1,6 +1,6 @@
 import streamlit as st
 
-def render_kongsang_page():
+def render_video_page():
     st.markdown("<h1 style='font-size: 40px; color: #333333; font-weight: bold; '>📽️ 视频合集</h1>", unsafe_allow_html=True) #text-align: center;
 
     st.subheader("💡 :blue[(原创)]六开空桑秒怪")
