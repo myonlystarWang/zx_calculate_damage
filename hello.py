@@ -123,7 +123,7 @@ def render_hello_page():
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=86074", label=f":blue[星宿系统星辰属性及升星增益表]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://www.bilibili.com/read/cv25048840/", label=f":blue[经典&进阶家族技能满级效果]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=88691&highlight=%E5%9B%9B%E4%BB%A3", label=f":blue[全职业四代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
-            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=387604&extra=page%3D1", label=f":blue[全职业三代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=562866&highlight=%E4%B8%89%E4%BB%A3%E6%8A%80%E8%83%BD", label=f":blue[全职业三代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=588740&highlight=%E5%BF%83%E6%B3%95", label=f":blue[全职业心法五代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
 
     with col4:
