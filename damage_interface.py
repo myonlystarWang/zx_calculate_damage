@@ -14,7 +14,7 @@ import plotly.express as px
 import copy
 import time
 from datetime import datetime
-import altair as alt
+import os
 
 # 主输出选项
 output_options = ["逐霜", "鬼王", "太昊", "惊岚", "涅羽"]
@@ -205,6 +205,8 @@ def render_attributes_page():
 def render_damage_calculation_page():
     st.markdown("<h1 style='font-size: 40px; color: #333333; font-weight: bold; '>💻 结果模拟</h1>", unsafe_allow_html=True) #text-align: center;
     #st.header("Step3: 伤害计算")
+    
+    # # 提取特征标签
 
     # 添加伤害计算的内容
     basic_damage, skill_bs = calculate_basic_damage(st.session_state.my_gain_attributes, st.session_state.boss_attributes, st.session_state.roles_para, st.session_state.skill_para, st.session_state.var_gains_para)
@@ -262,6 +264,12 @@ def render_damage_calculation_page():
     real_damage = {}
     real_damage["出爆最小伤害"] = int(damage_coeff.get("累积增伤系数", 0) * damage_coeff.get("总爆伤系数", 0) * basic_damage.get("最小基础伤害", 0))
     real_damage["出爆最大伤害"] = int(damage_coeff.get("累积增伤系数", 0) * damage_coeff.get("总爆伤系数", 0) * basic_damage.get("最大基础伤害", 0))
+
+    # 选择一个伤害值作为目标标签
+    target_label = real_damage["出爆最大伤害"]  # 或者选择 real_damage["出爆最小伤害"]
+
+    # 进行数据保存
+    save_to_csv(st.session_state.my_attributes, target_label)
 
     #st.markdown("**精确到万位：**")
     real_damage_wan = {}
@@ -935,7 +943,7 @@ def role_attribute_input(prefix, attribute, disabled = False):
     elif attribute in ["防御","御宝状态防御","满状态防御"]:
         step = 500  # 设置为500
         min_value = 0
-        max_value = 100000
+        max_value = 500000
     elif attribute in ["最小攻击", "最大攻击", "御宝状态最小攻击", "御宝状态最大攻击", "满状态最小攻击", "满状态最大攻击"]:
         step = 500  # 设置为500
         min_value = 0
@@ -1133,3 +1141,36 @@ def convert_to_units(numbers, unit='亿'):
         return [round(num / 1e4, 4) for num in numbers]
     else:
         return numbers
+    
+# 保存数据到CSV文件
+def save_to_csv(my_attributes, labels):
+    # 如果文件不存在，则创建新文件，并添加表头
+    if not os.path.exists('data.csv'):
+        df = pd.DataFrame(columns=['zhiye', 'qixue', 'zhenqi', 'low_gongji', 'up_gongji', 'defense', 'baoshang', 
+                                   'duiguai', '1%_qixue', '1%_zhenqi', '1%_gongji', '1%_fangyu', 'zishen_defense', 'up_damage'])
+        df.to_csv('data.csv', encoding='utf-8', index=False)
+
+    # 提取主输出属性相关的特征和标签
+    main_output_features = {
+        'zhiye': my_attributes.get('主输出_职业', 0),
+        'qixue': my_attributes.get('主输出_气血', 0),
+        'zhenqi': my_attributes.get('主输出_真气', 0),
+        'low_gongji': my_attributes.get('主输出_最小攻击', 0),
+        'up_gongji': my_attributes.get('主输出_最大攻击', 0),
+        'defense': my_attributes.get('主输出_防御', 0),
+        'baoshang': my_attributes.get('主输出_爆伤', 0),
+        'duiguai': my_attributes.get('主输出_对怪增伤', 0),
+        '1%_qixue': my_attributes.get('主输出_1%气血比面板气血', 0),
+        '1%_zhenqi': my_attributes.get('主输出_1%真气比面板真气', 0),
+        '1%_gongji': my_attributes.get('主输出_1%攻击比面板攻击', 0),
+        '1%_fangyu': my_attributes.get('主输出_1%防御比面板防御', 0),
+        'zishen_defense': my_attributes.get('主输出_自身防御力', 0),
+    }
+    main_output_labels = labels  # 出爆最大伤害
+
+    # 将新数据添加到文件末尾
+    new_data = {**main_output_features, 'up_damage': main_output_labels}
+
+    df = pd.DataFrame([new_data], columns=['zhiye', 'qixue', 'zhenqi', 'low_gongji', 'up_gongji', 'defense', 'baoshang', 
+                                         'duiguai', '1%_qixue', '1%_zhenqi', '1%_gongji', '1%_fangyu', 'zishen_defense', 'up_damage'])
+    df.to_csv('data.csv', mode='a', encoding='utf-8',index=False, header=False)

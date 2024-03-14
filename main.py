@@ -5,8 +5,6 @@ from damage_interface import render_attributes_page
 from damage_interface import render_damage_calculation_page
 from video_interface import render_video_page
 from hello import render_hello_page
-import streamlit_option_menu
-from streamlit_option_menu import option_menu
 
 initialized = False
 
@@ -119,7 +117,6 @@ footer {visibility: hidden;}
 </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
 
 def main():
     # 自定义标题容器
