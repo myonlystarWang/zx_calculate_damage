@@ -1,5 +1,6 @@
 # calculator.py
 import re
+import streamlit as st
 
 #定义乘数
 bool_dict = {
@@ -52,10 +53,20 @@ gj_longhu_dict = {
     "龙虎3": 100,
     "龙虎4": 800
 }
+fy_shangyishentong_dict = {
+    "荧炬": 100,
+    "皓月": 125,
+    "曦日": 150
+}
 gjb_longhu_dict = {
     "龙虎1": 10,
     "龙虎3": 30,
     "龙虎4": 50
+}
+gjb_tiangang3_dict = {
+    "1级": 1,
+    "2级": 2,
+    "3级": 3,
 }
 fy_longhu_dict = {
     "龙虎1": 5,
@@ -109,7 +120,7 @@ def roles_skill_gains_calculate(my_attributes, roles_para, var_gains_para):
     for role_para in roles_para:    
         if role_para == "天音":
             skill_gains_para["技能增益_专注_慈航法愿"] = zz_cihang_dict.get(roles_para[role_para].get("天音_技能_慈航法愿", False), 18)    
-            skill_gains_para["技能增益_气血_摩柯心经"] = roles_para[role_para].get("天音_最大攻击", 0) * qx_moke_dict.get(roles_para[role_para].get("天音_玄烛品质_摩柯心经", 0), 4)  
+            skill_gains_para["技能增益_气血_摩柯心经"] = roles_para[role_para].get("天音_最大攻击", 0) * qx_moke_dict.get(roles_para[role_para].get("天音_玄烛品质_摩柯心经", '荧炬'), 4)  
             skill_gains_para["技能增益_防御_金刚不坏"] = roles_para[role_para].get("天音_真气", 0) * 0.15    
             skill_gains_para["技能增益_防御_金刚不坏2"] = roles_para[role_para].get("天音_真气", 0) * 0.1265    
             skill_gains_para["技能增益_气血比_大慈悲"] = round(10 * (1 + 0.12), 1)    
@@ -182,14 +193,23 @@ def all_skill_gains_calculate(my_attributes, skill_gains_para, var_gains_para):
     prof = my_attributes.get("主输出_职业", 0)
     #if prof == "逐霜":
     if prof == 0:
-        skill_gains_para["技能增益_专注_清啸"] = 44 
+        if st.session_state.skill_para["技能名称"] == "苍龙玄":
+            # 仙逐霜特有
+            skill_gains_para["技能增益_专注_怒龙吞海2"] = 30 
+            skill_gains_para["技能增益_爆伤_云蒸霞蔚2"] = 50
+        elif st.session_state.skill_para["技能名称"] == "苍龙煞":
+            # 魔逐霜特有
+            #skill_gains_para["技能增益_真气比_造化技能空灵"] = 10 
+            #skill_gains_para["技能增益_气血比_造化技能狂神"] = 10
+            skill_gains_para["技能增益_气血比_霜池煞"] = 20
+
+        skill_gains_para["技能增益_专注_怒龙吞海"] = 14 
         skill_gains_para["技能增益_专注_枕戈待旦"] = 20 
         skill_gains_para["技能增益_爆伤_枕戈待旦"] = 75
-        skill_gains_para["技能增益_爆伤_云蒸霞蔚2"] = 50
         skill_gains_para["技能增益_专注_乘时"] = 15 * bool_dict.get(my_attributes.get("主输出_心法_乘时而化", False), 0)
         skill_gains_para["技能增益_真气比_太极_乘时"] = 10 * bool_dict.get(my_attributes.get("主输出_心法_太极_乘时而化", False), 0)
-        skill_gains_para["技能增益_真气比_云蒸霞蔚"] = zq_yunzheng_dict.get(my_attributes.get("主输出_玄烛品质_云蒸霞蔚", 30), 30)
-        skill_gains_para["技能增益_攻击比_披霞揽星"] = 20
+        skill_gains_para["技能增益_真气比_云蒸霞蔚"] = zq_yunzheng_dict.get(my_attributes.get("主输出_玄烛品质_云蒸霞蔚", '荧炬'), 30)
+        skill_gains_para["技能增益_攻击比_披霞揽星"] = 14 #20
 
     elif prof == 1:#"鬼王"
         skill_gains_para["技能增益_猛火咒3"] = 25 / 100
@@ -206,16 +226,30 @@ def all_skill_gains_calculate(my_attributes, skill_gains_para, var_gains_para):
 
         skill_gains_para["技能增益_攻击比_天魔附体"] = 15 + 5 + round(all_zhenqi / 50000, 1)
         #skill_gains_para["技能增益_自身防御力"] = my_attributes.get("主输出_自身防御力", 0)
-        skill_gains_para["技能增益_自身防御力_枯木咒"] = fy_chiqing_dict.get(my_attributes.get("主输出_玄烛品质_痴情咒", 2.5), 2.5)
+        skill_gains_para["技能增益_自身防御力_枯木咒"] = fy_chiqing_dict.get(my_attributes.get("主输出_玄烛品质_痴情咒", '荧炬'), 2.5)
 
     elif prof == 2:#"太昊"
-        pass
+        skill_gains_para["技能增益_爆伤_地煞神2"] = 50
+        skill_gains_para["技能增益_爆伤_伏羲魂神通"] = 100
+        skill_gains_para["技能增益_爆伤_天罡神3"] = 20
+        skill_gains_para["技能增益_攻击比_地煞狂灵形"] = 100 + 20 * bool_dict.get(my_attributes.get("主输出_技能_地煞狂灵形", False), 0) + 30 
+        skill_gains_para["技能增益_攻击比_天罡神3"] = (3 + 15) * gjb_tiangang3_dict.get(my_attributes.get("主输出_三代白虎_天罡正觉神", '2级'), 0) * bool_dict.get(my_attributes.get("主输出_技能_碧海系", False), 0)
+        skill_gains_para["技能增益_气血比_地煞狂灵形"] = 150 + 30 * bool_dict.get(my_attributes.get("主输出_技能_地煞狂灵形", False), 0) + 60 
 
     elif prof == 3:#"惊岚"
         pass
 
     elif prof == 4:#"涅羽"
-        pass
+        #要先算出涅羽真气最大值        
+        all_zhenqi = min((my_attributes.get("主输出_真气", 0) + \
+                          skill_gains_para.get("技能增益_真气_云水雅韵2", 0) + \
+                          skill_gains_para.get("技能增益_真气_附骨生灵2", 0) + \
+                          my_attributes.get("主输出_1%真气比面板真气", 0) * (number + var_gains_para.get("星语拔山", 0) / 2 + skill_gains_para.get("技能增益_真气比_五气朝元", 0)) + \
+                          var_gains_para.get("墨雪特效霜情", 0) + \
+                          200 + number * 100), 4000000)
+        print(all_zhenqi)
+        skill_gains_para["技能增益_攻击_伤衣神通"] = int((all_zhenqi / 10000))*(175 + fy_shangyishentong_dict.get(my_attributes.get("主输出_玄烛品质_毒祭无常业", '荧炬'), 0))
+        skill_gains_para["技能增益_专注_伤衣神通"] = 70
 
     else:
         pass

@@ -64,15 +64,25 @@ def render_hello_page():
         st.markdown(":blue[其他图文说明待补充，请稍后......]")
 
     with st.expander("版本更新说明"):   
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.2</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.markdown("**新增内容：**")
+        st.markdown("· 完成太昊、涅羽职业伤害计算测试")
+        st.markdown("**修改内容：**")
+        st.markdown("· 由于B站外链失效，将视频播放从网络修改为本地")
+        st.markdown("· 增加每一级计算时75w攻击50w防御、除人族外400w血蓝的限制")
+        st.markdown("· 修正逐霜增益，区分仙逐霜和魔逐霜")
+        st.markdown("**敬请期待：**")
+        st.markdown("· 惊岚职业的技能伤害计算")
+        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
+
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.1</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.markdown("**新增内容：**")
         st.markdown("· 增加从主输出御宝白状态计算其满状态攻击值、气血值、防御值")
         st.markdown("**修改内容：**")
         st.markdown("· 部分技能和增益计算有误，已修正")
         st.markdown("**敬请期待：**")
-        st.markdown("· 太昊、惊岚、涅羽的技能伤害计算")
+        st.markdown("· 太昊、惊岚、涅羽职业技能伤害计算")
         st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
-        st.markdown("· 400万气血真气限制开关")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.markdown("**新增内容：**")

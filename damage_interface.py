@@ -36,6 +36,9 @@ var_gain_options = ["九华淀魂曲" , "八级雷煌闪", "三味真炎火", "�
 # 星宿品质选项
 xingxiu_options = ["荧炬", "皓月", "曦日"]
 
+# 三代品质选项
+sandai_options = ["1级", "2级", "3级"]
+
 # 前世职业选项
 qianshi_options = ["太昊", "烈山", "其他"]
 
@@ -55,11 +58,11 @@ jiazu_level_options = ["1阶", "2阶", "3阶", "4阶", "5阶", "6阶", "7阶", "
 # 技能输出字典
 #仙涅羽赤乌多50%攻击  10%气血  5%真气
 skills_detail_options = {
-        "附加本体攻击百分比": {"step": 1, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 240, "苍龙煞": 240, "银鳞玄冰": 290, "未名神通": 168, "九变": 130, "大业浮屠·赤乌": 340, "森罗削空斩·赤乌": 400, "天地绝神通": 200}},
+        "附加本体攻击百分比": {"step": 1, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 240, "苍龙煞": 240, "银鳞玄冰": 290, "未名神通": 168, "九变": 130, "大业浮屠·赤乌": 290, "森罗削空斩·赤乌": 400, "天地绝神通": 200}},
         "附加防御上限百分比": {"step": 10, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 0, "银鳞玄冰": 0, "未名神通": 400, "九变": 0, "大业浮屠·赤乌": 0, "森罗削空斩·赤乌": 0, "天地绝神通": 0}},
-        "附加气血上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 48, "银鳞玄冰": 40, "未名神通": 0, "九变": 20, "大业浮屠·赤乌": 80, "森罗削空斩·赤乌": 12, "天地绝神通": 26}},
-        "附加真气上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 48, "苍龙煞": 0, "银鳞玄冰": 40, "未名神通": 15, "九变": 20, "大业浮屠·赤乌": 40, "森罗削空斩·赤乌": 12, "天地绝神通": 26}},
-        "附加爆伤": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 100, "苍龙煞": 100, "银鳞玄冰": 100, "未名神通": 100, "九变": 0, "大业浮屠·赤乌": 50, "森罗削空斩·赤乌": 100, "天地绝神通": 100}},
+        "附加气血上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 0, "苍龙煞": 48, "银鳞玄冰": 40, "未名神通": 0, "九变": 20, "大业浮屠·赤乌": 60, "森罗削空斩·赤乌": 12, "天地绝神通": 26}},
+        "附加真气上限百分比": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 48, "苍龙煞": 0, "银鳞玄冰": 40, "未名神通": 15, "九变": 20, "大业浮屠·赤乌": 30, "森罗削空斩·赤乌": 12, "天地绝神通": 26}},
+        "附加爆伤": {"step": 5, "default": 100, "min": 0, "max": 500, "values": {"苍龙玄": 100, "苍龙煞": 100, "银鳞玄冰": 100, "未名神通": 100, "九变": 0, "大业浮屠·赤乌": 30, "森罗削空斩·赤乌": 100, "天地绝神通": 100}},
         "附加固定攻击值": {"step": 10, "default": 300, "min": 0, "max": 10000, "values": {"苍龙玄": 4000, "苍龙煞": 4000, "银鳞玄冰": 6000, "未名神通": 2720, "九变": 0, "大业浮屠·赤乌": 5000, "森罗削空斩·赤乌": 4800, "天地绝神通": 2750}},
     }
 
@@ -79,8 +82,11 @@ keys_to_display = [
 # 技能段数
 skills_period_option = {"苍龙玄": 9,"苍龙煞": 9,"银鳞玄冰": 6,"未名神通": 6,"九变": 9,"天地绝神通": 5,"森罗削空斩·赤乌": 15,"大业浮屠·赤乌": 8}
 
-#伤害上限
+# 伤害上限
 max_damage = 2147483647
+
+# 涅羽凰吻2
+fengwen2_options = {"附加本体攻击百分比": 50,"附加气血上限百分比": 10,"附加真气上限百分比": 5}
 
 def render_attributes_page():
     st.markdown("<h1 style='font-size: 40px; color: #333333; font-weight: bold; '>📝 属性确认</h1>", unsafe_allow_html=True) #text-align: center;#📚
@@ -231,7 +237,7 @@ def render_damage_calculation_page():
                st.session_state.skill_gains_para.get("技能增益_专注_凌寒拂霜", 0) + \
                st.session_state.skill_gains_para.get("技能增益_专注_祝融真典2", 0) + \
                st.session_state.skill_gains_para.get("技能增益_专注_日月弘光", 0) + \
-               st.session_state.skill_gains_para.get("技能增益_专注_清啸", 0) + \
+               st.session_state.skill_gains_para.get("技能增益_专注_怒龙吞海2", 0) + \
                st.session_state.skill_gains_para.get("技能增益_专注_枕戈待旦", 0) + \
                st.session_state.skill_gains_para.get("技能增益_专注_乘时", 0) + \
                st.session_state.var_gains_para.get("三碗不过岗", 0)
@@ -457,7 +463,7 @@ def render_setting_page():
 
     #先选择主输出职业
     selected_output = st.radio(
-                            ":green[*(目前仅测试了仙逐霜、鬼王)*]", 
+                            ":green[*(目前仅测试了仙逐霜、鬼王、太昊)*]", 
                             output_options, 
                             key="output_radio", 
                             on_change=update_prof_index,
@@ -467,7 +473,7 @@ def render_setting_page():
 
     # 为主输出设置属性
     with st.expander(f"**填写主输出属性：**"):   
-        st.caption(':green[*(以下气血、攻击、防御填写满状态属性，其余均为御宝白状态属性)*]') 
+        st.caption(':green[*(均填写御宝白状态属性)*]') 
         set_role_attributes("主输出")
 
     # 选择组队职业（多选框）
@@ -542,7 +548,7 @@ def render_setting_page():
     # 选择可变增益项（多选框）
     st.subheader(f"选择可变增益项")
     st.multiselect(
-                ":green[*(在下方多选框中添加或删除增益项)*]", 
+                ":green[*(在下方多选框中添加或删除增益项，神爆、龙虎1、佛尊1、佛尊2为默认存在项)*]", 
                 var_gain_options, 
                 key="selected_gains_multiselect", 
                 on_change=update_selected_gains,
@@ -747,7 +753,35 @@ def skill_attribute_input(selected_skill, attribute, help_text=None):
 
     if selected_skill in attribute_values.get("values", {}):
         default_value = attribute_values["values"][selected_skill]
-        
+  
+    # 涅羽和惊岚需要根据赤乌品质计算技能附加值
+    if selected_output == "涅羽":
+        # 获取赤乌品质
+        quality = xingxiu_options.index(st.session_state.my_attributes.get("主输出_赤乌品质_大业浮屠", ""))
+
+        # 分别修正攻击比、气血、真气、爆伤
+        if attribute == "附加本体攻击百分比":
+            default_value = default_value + 25 * quality + fengwen2_options[attribute]
+        elif attribute == "附加真气上限百分比":
+            default_value = default_value + 5 * quality + fengwen2_options[attribute]
+        elif attribute == "附加气血上限百分比":
+            default_value = default_value + 10 * quality + fengwen2_options[attribute]
+        elif attribute == "附加爆伤":
+            default_value = default_value + 10 * quality
+    elif selected_output == "惊岚":
+        # 获取赤乌品质
+        quality = xingxiu_options.index(st.session_state.my_attributes.get("主输出_赤乌品质_森罗削空斩", ""))
+
+        # 分别修正攻击比、气血、真气、爆伤
+        if attribute == "附加本体攻击百分比":
+            default_value = default_value + 25 * quality
+        elif attribute == "附加真气上限百分比":
+            default_value = default_value + 5 * quality
+        elif attribute == "附加气血上限百分比":
+            default_value = default_value + 10 * quality
+        elif attribute == "附加爆伤":
+            default_value = default_value + 10 * quality
+
     #selected_value = st.slider(f"{attribute}", min_value=min_value, max_value=max_value, value=default_value, step=step, key=unique_key)
     selected_value = st.number_input(f"{attribute}", min_value=min_value, max_value=max_value, value=default_value, step=step, key=unique_key)
     return selected_value
@@ -869,15 +903,19 @@ def set_role_attributes(prefix):
         with col1:
             role_attribute_input(prefix,"气血")
             role_attribute_input(prefix,"1%气血比面板气血")#"分别记录更换气血比荧惑前后的面板气血，作差后除以该气血比荧惑的数值即为填写值"
+
         with col2:
             role_attribute_input(prefix,"真气")
             role_attribute_input(prefix,"1%真气比面板真气")
+
         with col3:
             role_attribute_input(prefix,"最小攻击")
             role_attribute_input(prefix,"1%攻击比面板攻击")
+
         with col4:
             role_attribute_input(prefix,"最大攻击")
             role_attribute_input(prefix,"1%防御比面板防御")
+
         with col5:
             role_attribute_input(prefix,"防御")
             if selected_output == "逐霜":
@@ -887,17 +925,28 @@ def set_role_attributes(prefix):
             elif selected_output == "涅羽":
                 role_attribute_input(prefix,"赤乌品质_大业浮屠")
             elif selected_output == "鬼王":
-                role_attribute_input(prefix,"自身防御力")                        
+                role_attribute_input(prefix,"自身防御力")    
+            elif selected_output == "太昊":
+                role_attribute_input(prefix,"三代白虎_天罡正觉神")
+
         with col6:
             role_attribute_input(prefix,"爆伤")
             if selected_output == "鬼王":
                 role_attribute_input(prefix,"玄烛品质_痴情咒")
-            
+            elif selected_output == "太昊":
+                st.text('三代白虎技能系列')
+                role_attribute_input(prefix,"技能_碧海系")
+            elif selected_output == "涅羽":
+                role_attribute_input(prefix,"玄烛品质_毒祭无常业")
+
         with col7:
             role_attribute_input(prefix,"对怪增伤")#"属性面板滚轮向下即可看到【对怪物增伤】"
             if selected_output == "鬼王":
                 st.text('法宝技能是否+1')
                 role_attribute_input(prefix,"技能_锐金咒")
+            elif selected_output == "太昊":
+                st.text('法宝技能是否+1')
+                role_attribute_input(prefix,"技能_地煞狂灵形")
 
         with col8:
             role_attribute_input(prefix,"减爆伤", True)
@@ -995,6 +1044,7 @@ def role_attribute_input(prefix, attribute, disabled = False):
                     key=unique_key
                     )
         return 
+    
     elif "心法" in attribute:
         if attribute in ["心法_玄清_乘时而化", "心法_般若_银鳞玄冰", "心法_幽录_银鳞玄冰"]:
             disabled = True
@@ -1008,8 +1058,8 @@ def role_attribute_input(prefix, attribute, disabled = False):
         check_val = st.session_state.my_attributes[f"{prefix}_{attribute}"]
         #st.write(f"{check_val}")
         #print("st.write", st.session_state.my_attributes[f"{prefix}_{attribute}"])
-
         return 
+    
     elif "品质" in attribute:
         if prefix == "主输出":
                 st.selectbox(
@@ -1027,8 +1077,27 @@ def role_attribute_input(prefix, attribute, disabled = False):
                         on_change = partial(update_selectbox_value,prefix, attribute, unique_key),
                         key=unique_key
                         )
-                
         return 
+    
+    elif "三代" in attribute:
+        if prefix == "主输出":
+                st.selectbox(
+                        f"{attribute}",
+                        options=sandai_options, 
+                        index=sandai_options.index(st.session_state.my_attributes[f"{prefix}_{attribute}"]), 
+                        on_change = partial(update_selectbox_value,prefix, attribute, unique_key),
+                        key=unique_key
+                        )
+        else:
+                st.selectbox(
+                        f"{attribute}",
+                        options=sandai_options, 
+                        index=sandai_options.index(st.session_state.roles_para[prefix][f"{prefix}_{attribute}"]), 
+                        on_change = partial(update_selectbox_value,prefix, attribute, unique_key),
+                        key=unique_key
+                        )
+        return 
+        
     elif "前世" in attribute:
         st.selectbox(
                 f"{attribute}",
@@ -1037,7 +1106,6 @@ def role_attribute_input(prefix, attribute, disabled = False):
                 on_change = partial(update_selectbox_value,prefix, attribute, unique_key),
                 key=unique_key
                 )
-        
         return 
 
     #判断是否存在缓存值，存在的话直接根据prefix和 attribute获取确定的值
