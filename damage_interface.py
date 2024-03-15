@@ -574,11 +574,17 @@ def render_setting_page():
         #     return  {}, {}, {}, {}, {}# 不执行跳转
         if save_to_file:
             save_session_state_to_yaml()
+
         st.session_state["current_page"] = "📝伤害计算-属性确认"
         st.rerun()
     
     #st.markdown('[返回顶部](#top)')    
     return
+
+def save_toast_info(flag):
+    if flag:
+        msg = st.toast("配置文件已成功保存到 config 目录!")
+        time.sleep(1)
 
 def save_session_state_to_yaml():
     # 获取所有控件的值并保存到字典中
@@ -590,13 +596,21 @@ def save_session_state_to_yaml():
         "var_gains_para": st.session_state.var_gains_para,
     }
 
+    # 生成带有当前日期的文件名
+    output = st.session_state.my_attributes["主输出_职业"]
+    prof = output_options[output]
+    current_date = datetime.now().strftime("%Y年%m月%d日%H时%M分%S秒")
+    file_name = f"./config/{prof}设置_{current_date}.yaml"
+
     # 弹出文件保存对话框
-    file_path = filedialog.asksaveasfilename(defaultextension=".yaml", filetypes=[("YAML files", "*.yaml")])
+    #file_path = filedialog.asksaveasfilename(defaultextension=".yaml", filetypes=[("YAML files", "*.yaml")])
     
-    if file_path:
+    if file_name:
         # 保存到 YAML 文件
-        with open(file_path, 'w', encoding='utf-8') as file:
+        with open(file_name, 'w', encoding='utf-8') as file:
             yaml.dump(config_dict, file, allow_unicode=True)
+
+    return True
 
 def move_specific_items_to_end(items, specific_items):
     for item in specific_items:
@@ -783,7 +797,7 @@ def skill_attribute_input(selected_skill, attribute, help_text=None):
             default_value = default_value + 10 * quality
 
     #selected_value = st.slider(f"{attribute}", min_value=min_value, max_value=max_value, value=default_value, step=step, key=unique_key)
-    selected_value = st.number_input(f"{attribute}", min_value=min_value, max_value=max_value, value=default_value, step=step, key=unique_key)
+    selected_value = st.number_input(f"{attribute}", min_value=min_value, max_value=max_value, value=default_value, step=step, key=unique_key, disabled=True)
     return selected_value
 
 def set_role_attributes(prefix):
