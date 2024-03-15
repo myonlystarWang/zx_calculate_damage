@@ -30,7 +30,7 @@ skill_options = {
 # 职业选项
 profession_options = ["天音", "天华", "昭冥", "画影", "鬼王", "焚香", "青罗", "青云", "英招", "九黎", "百灵"]
 
-# 可变增益选项
+# 通用增益选项
 var_gain_options = ["九华淀魂曲" , "八级雷煌闪", "三味真炎火", "雪琪的祈愿", "副本赠送属性", "龙虎之力", "墨雪特效霜情", "三碗不过岗", "情愫项链技能佳期", "法宝融合爆伤", "进阶家族技能等级", "经典家族技能等级", "星语拔山"]
 
 # 星宿品质选项
@@ -124,7 +124,7 @@ def render_attributes_page():
 
     # 按不同增益分开展示
     with st.expander(f"**展开以显示各类增益数值**"):   
-        st.markdown("**已选择的可变增益项:**")
+        st.markdown("**已选择的通用增益项:**")
         formatted_gains = " ".join([f"{gain}" for gain in st.session_state.selected_gains])
         st.text(f"{formatted_gains}")
         
@@ -181,17 +181,22 @@ def render_attributes_page():
     # st.subheader("技能附加伤害")
     # st.json(st.session_state.skill_para)
 
-    # 显示可变增益项
-    # st.subheader("可变增益项")
+    # 显示通用增益项
+    # st.subheader("通用增益项")
     # st.json(st.session_state.var_gains_para)
 
     # 显示boss属性
     # st.subheader("BOSS属性")
     # st.json(st.session_state.boss_attributes)
 
-    if st.button(f"**属性确认完成**", key="attributes_to_caculation", type="primary", use_container_width=True):
-        st.session_state["current_page"] = "💻伤害计算-结果模拟"
-        st.rerun()
+    col1, col2= st.columns(2)
+    with col1:
+        if st.button(f"**配置文件列表**", key="list_config", type="primary", use_container_width=True, disabled=True):
+            pass
+    with col2:
+        if st.button(f"**属性确认完成**", key="attributes_to_caculation", type="primary", use_container_width=True):
+            st.session_state["current_page"] = "💻伤害计算-结果模拟"
+            st.rerun()
 
     #col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns(10)
     # col1, col2 = st.columns(2)
@@ -545,8 +550,8 @@ def render_setting_page():
     st.session_state.skill_para["技能名称索引"] = changed_skill_options.index(selected_skill)
     st.session_state.skill_para["技能名称"] = selected_skill
 
-    # 选择可变增益项（多选框）
-    st.subheader(f"选择可变增益项")
+    # 选择通用增益项（多选框）
+    st.subheader(f"选择通用增益项")
     st.multiselect(
                 ":green[*(在下方多选框中添加或删除增益项，神爆、龙虎1、佛尊1、佛尊2为默认存在项)*]", 
                 var_gain_options, 
@@ -555,8 +560,8 @@ def render_setting_page():
                 default = st.session_state.selected_gains
                 )
 
-    # 为每个可变增益项设置属性
-    with st.expander(f"**可变增益参数**", expanded = False):
+    # 为每个通用增益项设置属性
+    with st.expander(f"**通用增益参数**", expanded = False):
         set_gain_attributes(st.session_state.selected_gains)
 
     # 保存和跳转

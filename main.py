@@ -103,6 +103,9 @@ def initialize_session_state():
             st.session_state.real_damage = None
         if "text_output" not in st.session_state:
             st.session_state.text_output = ""
+        if "current_index" not in st.session_state:
+            st.session_state.current_index = 0
+
         initialized = True
 
 initialize_session_state()  # 确保 session_state 被初始化
@@ -150,7 +153,7 @@ def main():
     st.sidebar.markdown('---')
 
     # # 步骤导引
-    # current_step = st.sidebar.radio("选择当前步骤", ["导入数据文件", "选择主输出职业", "选择组队职业", "设置BOSS属性", "选择输出技能", "选择可变增益项"])
+    # current_step = st.sidebar.radio("选择当前步骤", ["导入数据文件", "选择主输出职业", "选择组队职业", "设置BOSS属性", "选择输出技能", "选择通用增益项"])
     # 导航栏
     with st.sidebar:
         st.selectbox(

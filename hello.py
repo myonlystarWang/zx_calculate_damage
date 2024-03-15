@@ -3,6 +3,16 @@ import pandas as pd
 from data import load_comments_data, save_comments_data
 import datetime
 
+# 假设我们有以下图片列表
+images = ["img/step1.png", "img/step2.png", "img/step3.png", "img/step4.png", "img/step5.png", "img/step6.png", "img/step7.png", "img/step8.png"]
+captions = ["伤害计算入口", "设置主输出属性", "设置辅助职业属性", "设置BOSS属性&选择输出技能", "设置通用增益项", "确认主输出&各类增益属性", "伤害计算结果模拟", "模拟持续输出伤害"]
+        
+def prev_click():
+    st.session_state.current_index = (st.session_state.current_index - 1) % len(images)
+
+def next_click():
+    st.session_state.current_index = (st.session_state.current_index + 1) % len(images)
+
 def update_visit_count():
     # 文件路径
     file_path = 'visit_count.txt'
@@ -52,8 +62,8 @@ def render_hello_page():
     """
     )
 
-    with st.expander("展开以查看使用说明"):   
-        st.markdown(":red[注意：]初次进入网站使用伤害计算工具时，需要先进行参数设置。❌️不可直接点击结果模拟页面")
+    with st.expander("【使用说明】**:red[新手初次使用必看！！！]**"):   
+        st.markdown("初次进入网站使用伤害计算工具时，需要先进行参数设置。❌️不可直接点击结果模拟页面")
         col1,col2,col3,col4 = st.columns(4)
         with col1:
             st.image("./img/shuoming1.png",use_column_width=True,caption="在左侧边页面中找到导航选项")#use_column_width=True,
@@ -61,39 +71,53 @@ def render_hello_page():
         #    st.image("./img/mobile_shuoming1.jpg",use_column_width=True,caption="手机打开网页时需要点击左上角小三角标志")#
         with col2:
             st.image("./img/shuoming2.png",use_column_width=True,caption="选择伤害计算-参数设置")#
-        st.markdown(":blue[其他图文说明待补充，请稍后......]")
 
-    with st.expander("版本更新说明"):   
+        st.markdown("伤害计算具体使用方法如下：点击按钮查看下一张")
+
+
+        col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12  = st.columns(12)
+        with col6:
+            st.button("⬅️上一张", key="left", on_click=prev_click, use_container_width=True)
+        with col7:
+            st.button("下一张➡️", key="right", on_click=next_click, use_container_width=True)
+        # 显示当前图片
+        st.image(images[st.session_state.current_index], caption=captions[st.session_state.current_index], use_column_width=True)
+
+    with st.expander("【版本更新说明】"):   
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.2</h1>", unsafe_allow_html=True) #text-align: center;#📚
-        st.markdown("**新增内容：**")
+        st.markdown("**功能新增：**")
+        st.markdown("· 完善伤害计算使用说明配图")
         st.markdown("· 完成太昊、涅羽职业伤害计算测试")
-        st.markdown("**修改内容：**")
+        st.markdown("**BUG修复：**")
         st.markdown("· 由于B站外链失效，将视频播放从网络修改为本地")
         st.markdown("· 增加每一级计算时75w攻击50w防御、除人族外400w血蓝的限制")
         st.markdown("· 修正逐霜增益，区分仙逐霜和魔逐霜")
+        st.markdown("· 暂时修改保存配置文件到服务器config目录")
+        st.markdown("· 锁定技能附加数值，不能修改")
         st.markdown("**敬请期待：**")
+        st.markdown("· 开发配置文件下载列表，按需下载保存的配置文件")
         st.markdown("· 惊岚职业的技能伤害计算")
         st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.1</h1>", unsafe_allow_html=True) #text-align: center;#📚
-        st.markdown("**新增内容：**")
+        st.markdown("**功能新增：**")
         st.markdown("· 增加从主输出御宝白状态计算其满状态攻击值、气血值、防御值")
-        st.markdown("**修改内容：**")
+        st.markdown("**BUG修复：**")
         st.markdown("· 部分技能和增益计算有误，已修正")
         st.markdown("**敬请期待：**")
         st.markdown("· 太昊、惊岚、涅羽职业技能伤害计算")
         st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
-        st.markdown("**新增内容：**")
+        st.markdown("**功能新增：**")
         st.markdown("· 添加辅助职业：英招、百灵、九黎、鬼王及其对应的技能")
-        st.markdown("· 添加可变技能增益项：八级雷煌闪、三味真炎火、雪琪的祈愿、龙虎之力、星语拔山")
-        st.markdown("**修改内容：**")
+        st.markdown("· 添加通用技能增益项：八级雷煌闪、三味真炎火、雪琪的祈愿、龙虎之力、星语拔山")
+        st.markdown("**BUG修复：**")
         st.markdown("· 修改太昊、惊岚、涅羽技能附加伤害数值")
-        st.markdown("· 修改可变增益项的增删逻辑BUG，该BUG会导致删除的可变增益项仍然生效")
+        st.markdown("· 修改通用增益项的增删逻辑BUG，该BUG会导致删除的通用增益项仍然生效")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.0.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
-        st.markdown("**新增内容：**")
+        st.markdown("**功能新增：**")
         st.markdown("· 初始创建")
 
     # 跳转按钮    
