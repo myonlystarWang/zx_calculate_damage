@@ -108,9 +108,6 @@ def render_attributes_page():
         formatted_roles = " ".join([f"{role}" for role in st.session_state.selected_roles])
         st.text(f"{formatted_roles}")
 
-    # 显示所有技能增益
-    st.subheader("技能增益项")
-   
     # 删除roles_para中不在selected_roles里的职业，形成一个新的变量传递给skill_gains_calculate函数
     roles_para_copy = copy.deepcopy(st.session_state.roles_para)
     roles_para_filtered = {role: values for role, values in roles_para_copy.items() if role in st.session_state.selected_roles}
@@ -122,26 +119,29 @@ def render_attributes_page():
     roles_skill_gains_para = roles_skill_gains_calculate(st.session_state.my_attributes, roles_para_filtered, var_gains_para_filtered)
     skill_gains_para = all_skill_gains_calculate(st.session_state.my_attributes, roles_skill_gains_para, var_gains_para_filtered)
 
+    # 分类后的变量
+    skill_categories = {}
+    # 遍历原始字典，按照不同类别分类
+    for key, value in skill_gains_para.items():
+        # 获取技能增益的类型（攻击、防御、真气、爆伤等）
+        skill_type = key.split("_")[1]
+        
+        # 构建对应类型的字典，如果还没有创建
+        if skill_type not in skill_categories:
+            skill_categories[skill_type] = {}
+        
+        # 将键值对添加到相应的变量中
+        skill_categories[skill_type][key] = value        
+    '''
+    # 显示所有技能增益
+    st.subheader("技能增益项")
+   
     # 按不同增益分开展示
     with st.expander(f"**展开以显示各类增益数值**"):   
         st.markdown("**已选择的通用增益项:**")
         formatted_gains = " ".join([f"{gain}" for gain in st.session_state.selected_gains])
         st.text(f"{formatted_gains}")
         
-        # 分类后的变量
-        skill_categories = {}
-        # 遍历原始字典，按照不同类别分类
-        for key, value in skill_gains_para.items():
-            # 获取技能增益的类型（攻击、防御、真气、爆伤等）
-            skill_type = key.split("_")[1]
-            
-            # 构建对应类型的字典，如果还没有创建
-            if skill_type not in skill_categories:
-                skill_categories[skill_type] = {}
-            
-            # 将键值对添加到相应的变量中
-            skill_categories[skill_type][key] = value        
-       
         # 将每一个分离出来的变量分列在不同列中        
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -161,7 +161,7 @@ def render_attributes_page():
             st.json(skill_categories.get("爆伤", {}))
             st.json(skill_categories.get("专注", {}))
             st.json(skill_categories.get("巫咒", {}))            
-
+    '''       
 
     # 显示主输出满增益属性
     # st.markdown("**主输出御宝状态属性:**")
