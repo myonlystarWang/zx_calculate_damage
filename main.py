@@ -105,6 +105,9 @@ def initialize_session_state():
             st.session_state.text_output = ""
         if "current_index" not in st.session_state:
             st.session_state.current_index = 0
+        # 假设 st.session_state 已经初始化
+        if 'cfg_list' not in st.session_state:
+            st.session_state['cfg_list'] = []
 
         initialized = True
 

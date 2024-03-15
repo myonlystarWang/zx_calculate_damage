@@ -18,6 +18,7 @@ import os
 
 # 主输出选项
 output_options = ["逐霜", "鬼王", "太昊", "惊岚", "涅羽"]
+output_en_options = ["zhushuang", "guiwang", "taihao", "jinglan", "nieyu"]
 
 # 技能选项
 skill_options = {
@@ -175,7 +176,6 @@ def render_attributes_page():
 
     # 将结果转换为 JSON 格式并打印
     filtered_json = json.dumps(filtered_data, indent=4)
-    st.json(filtered_json)
    
     # 显示技能伤害
     # st.subheader("技能附加伤害")
@@ -189,14 +189,44 @@ def render_attributes_page():
     # st.subheader("BOSS属性")
     # st.json(st.session_state.boss_attributes)
 
-    col1, col2= st.columns(2)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
-        if st.button(f"**配置文件列表**", key="list_config", type="primary", use_container_width=True, disabled=True):
-            pass
+        st.json(filtered_json)
+
     with col2:
-        if st.button(f"**属性确认完成**", key="attributes_to_caculation", type="primary", use_container_width=True):
-            st.session_state["current_page"] = "💻伤害计算-结果模拟"
-            st.rerun()
+        #if st.button(f"**配置文件列表**", key="list_config", type="primary", use_container_width=True):
+        on = st.toggle('**配置文件下载**')
+        if on:
+            # 获取config目录下所有yaml文件
+            yaml_files = [f for f in os.listdir("./config") if f.endswith(".yaml")]
+            # 检查yaml_files是否为空
+            if not yaml_files:
+                st.warning("当前没有可用的配置文件。")
+            else:
+                st.success("获取配置文件列表成功！")
+
+                # 创建一个selectbox让用户选择要下载的文件
+                selected_file = st.selectbox("选择要下载的配置文件:", yaml_files)
+
+                # 获取文件的完整路径
+                file_path = os.path.join("./config", selected_file)
+
+                # 读取文件的二进制数据
+                with open(file_path, "rb") as file:
+                    file_data = file.read()
+
+                # 使用st.download_button来下载文件
+                st.download_button(
+                    label="下载配置文件",
+                    data=file_data,  # 传递文件的二进制数据
+                    file_name=selected_file,  # 设置下载文件的名称
+                    key="download_cfg", 
+                    mime="text/plain"  # 设置文件的MIME类型，这里假设是纯文本
+                )
+
+    if st.button(f"**属性确认完成**", key="attributes_to_caculation", type="primary", use_container_width=True):
+        st.session_state["current_page"] = "💻伤害计算-结果模拟"
+        st.rerun()
 
     #col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns(10)
     # col1, col2 = st.columns(2)

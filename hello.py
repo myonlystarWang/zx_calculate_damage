@@ -84,7 +84,16 @@ def render_hello_page():
         st.image(images[st.session_state.current_index], caption=captions[st.session_state.current_index], use_column_width=True)
 
     with st.expander("【版本更新说明】"):   
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.3</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-15')
+        st.markdown("**BUG修复：**")
+        st.markdown("· 修复配置文件保存、下载逻辑")
+        st.markdown("**敬请期待：**")
+        st.markdown("· 惊岚职业的技能伤害计算")
+        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
+        
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.2</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-14')
         st.markdown("**功能新增：**")
         st.markdown("· 完善伤害计算使用说明配图")
         st.markdown("· 完成太昊、涅羽职业伤害计算测试")
@@ -100,6 +109,7 @@ def render_hello_page():
         st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.1</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-13')
         st.markdown("**功能新增：**")
         st.markdown("· 增加从主输出御宝白状态计算其满状态攻击值、气血值、防御值")
         st.markdown("**BUG修复：**")
@@ -109,6 +119,7 @@ def render_hello_page():
         st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.1.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-02')
         st.markdown("**功能新增：**")
         st.markdown("· 添加辅助职业：英招、百灵、九黎、鬼王及其对应的技能")
         st.markdown("· 添加通用技能增益项：八级雷煌闪、三味真炎火、雪琪的祈愿、龙虎之力、星语拔山")
@@ -117,6 +128,7 @@ def render_hello_page():
         st.markdown("· 修改通用增益项的增删逻辑BUG，该BUG会导致删除的通用增益项仍然生效")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>v1.0.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-02-29')
         st.markdown("**功能新增：**")
         st.markdown("· 初始创建")
 
