@@ -463,7 +463,7 @@ def render_setting_page():
 
     #先选择主输出职业
     selected_output = st.radio(
-                            ":green[*(目前仅测试了仙逐霜、鬼王、太昊)*]", 
+                            ":green[*(惊岚未测试)*]", 
                             output_options, 
                             key="output_radio", 
                             on_change=update_prof_index,

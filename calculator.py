@@ -309,15 +309,21 @@ def my_gained_attribute_calculate(my_attributes, skill_gains_para, var_gains_par
             if my_attributes.get("主输出_职业", 0) != 1:
                 new_value = min(new_value, 4000000)
        
-        elif "最大攻击" in key or "最小攻击" in key:                
+        elif "最大攻击" in key or "最小攻击" in key:          
+            # 单独计算挂件大小攻击
+            if "最大攻击" in key:
+                zhaoming_gj = skill_gains_para.get("技能增益_最大攻击_附骨生灵2", 0)
+            elif "最小攻击" in key:
+                zhaoming_gj = skill_gains_para.get("技能增益_最小攻击_附骨生灵2", 0)
+
             # 攻击计算
             gjb_sum = sum(skill_categories["攻击比"].values())
-            gj_sum = sum(skill_categories["攻击"].values())
+            gj_sum = sum(skill_categories["攻击"].values()) + zhaoming_gj
 
             # 主输出是鬼王需要额外计算攻击
             if my_attributes.get("主输出_职业", 0) == 1:
                 # 第一轮枯木前的最大攻击
-                before1_kumu_gj = min(value + \
+                before1_kumu_gj = min(value + zhaoming_gj +\
                                 skill_gains_para.get("技能增益_攻击_副本赠送", 0) + \
                                 skill_gains_para.get("技能增益_攻击_龙虎1", 0) + \
                                 skill_gains_para.get("技能增益_攻击_龙虎之力", 0) + \
