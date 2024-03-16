@@ -446,7 +446,7 @@ def render_damage_calculation_page():
                 st.session_state.real_damage = real_damage
     return 
 
-def render_setting_page():
+def render_setting_page():  
     #st.markdown('<a name="top"></a>', unsafe_allow_html=True)
 
     # 使用的是这里的进度条方案
