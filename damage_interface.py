@@ -133,7 +133,7 @@ def render_attributes_page():
         
         # 将键值对添加到相应的变量中
         skill_categories[skill_type][key] = value        
-    '''
+
     # 显示所有技能增益
     st.subheader("技能增益项")
    
@@ -161,8 +161,7 @@ def render_attributes_page():
         with col4:
             st.json(skill_categories.get("爆伤", {}))
             st.json(skill_categories.get("专注", {}))
-            st.json(skill_categories.get("巫咒", {}))            
-    '''       
+            st.json(skill_categories.get("巫咒", {}))                  
 
     # 显示主输出满增益属性
     # st.markdown("**主输出御宝状态属性:**")
@@ -199,6 +198,10 @@ def render_attributes_page():
         if on:
             # 获取config目录下所有yaml文件
             yaml_files = [f for f in os.listdir("./config") if f.endswith(".yaml")]
+            
+            # 获取config目录下所有yaml文件
+            yaml_files = get_sorted_file_list("./config")
+
             # 检查yaml_files是否为空
             if not yaml_files:
                 st.warning("当前没有可用的配置文件。")
@@ -487,11 +490,12 @@ def render_setting_page():
         # 更新 st.session_state 中的数据
         st.session_state.my_attributes = uploaded_data.get("my_attributes", {})
         st.session_state.boss_attributes = uploaded_data.get("boss_attributes", {})
+        st.session_state.selected_roles = uploaded_data.get("selected_roles", {})
         st.session_state.roles_para = uploaded_data.get("roles_para", {})
         st.session_state.skill_para = uploaded_data.get("skill_para", {})
         st.session_state.var_gains_para = uploaded_data.get("var_gains_para", {})
-
-        st.success("数据文件导入成功！")
+        st.session_state.selected_gains = uploaded_data.get("selected_gains", {})
+        st.info("数据文件已导入！如果希望在导入数据的基础上修改设置，请点击已上传配置文件右侧的x，删除文件后再修改！")
 
     st.subheader(f"选择主输出职业(必选)")
     global selected_output
@@ -622,12 +626,15 @@ def save_toast_info(flag):
         time.sleep(1)
 
 def save_session_state_to_yaml():
+    
     # 获取所有控件的值并保存到字典中
     config_dict = {
         "my_attributes": st.session_state.my_attributes,
         "boss_attributes": st.session_state.boss_attributes,
+        "selected_roles": st.session_state.selected_roles,
         "roles_para": st.session_state.roles_para,
         "skill_para": st.session_state.skill_para,
+        "selected_gains": st.session_state.selected_gains,
         "var_gains_para": st.session_state.var_gains_para,
     }
 
@@ -1026,11 +1033,11 @@ def role_attribute_input(prefix, attribute, disabled = False):
     disabled = False
 
     # 根据属性名称设置不同的步长
-    if attribute in ["气血", "真气", "满状态气血", "满状态真气", "御宝状态气血", "御宝状态真气"]:
+    if attribute in ["气血", "真气"]:
         step = 10000  # 设置为1万
         min_value = 0
         max_value = 10000000
-    elif attribute in ["爆伤", "御宝状态爆伤", "满状态爆伤"]:
+    elif attribute in ["爆伤"]:
         step = 0.1  # 设置为0.1
         min_value = 0.0
         max_value = 3000.0
@@ -1038,11 +1045,13 @@ def role_attribute_input(prefix, attribute, disabled = False):
         step = 0.1  # 设置为0.1
         min_value = 0.0
         max_value = 30.0
-    elif attribute in ["防御","御宝状态防御","满状态防御"]:
+    elif attribute in ["防御"]:
+        # 当prefix为主输出，并且选择职业不为鬼王、惊岚时，防御默认设置为0
+        
         step = 500  # 设置为500
         min_value = 0
         max_value = 500000
-    elif attribute in ["最小攻击", "最大攻击", "御宝状态最小攻击", "御宝状态最大攻击", "满状态最小攻击", "满状态最大攻击"]:
+    elif attribute in ["最小攻击", "最大攻击"]:
         step = 500  # 设置为500
         min_value = 0
         max_value = 750000        
@@ -1061,7 +1070,7 @@ def role_attribute_input(prefix, attribute, disabled = False):
         min_value = 0
         max_value = 10000
         help = "通过装卸称号、荧惑、重华产生的属性变化来计算1%百分比对应的数值"
-    elif attribute in ["减爆伤", "御宝状态减爆伤"]:
+    elif attribute in ["减爆伤"]:
         step = 1  # 设置为10%
         min_value = 0
         max_value = 3000
@@ -1204,7 +1213,7 @@ def update_prof_options():
 def update_selected_gains():
     select_gains_options = st.session_state.get("selected_gains_multiselect", None)
     st.session_state.selected_gains = select_gains_options
-    
+
 def update_gains_item(attribute, unique_key):
     gains_value = st.session_state.get(unique_key, None)
     #print(unique_key, gains_value)
@@ -1291,3 +1300,10 @@ def save_to_csv(my_attributes, labels):
     df = pd.DataFrame([new_data], columns=['zhiye', 'qixue', 'zhenqi', 'low_gongji', 'up_gongji', 'defense', 'baoshang', 
                                          'duiguai', '1%_qixue', '1%_zhenqi', '1%_gongji', '1%_fangyu', 'zishen_defense', 'up_damage'])
     df.to_csv('data.csv', mode='a', encoding='utf-8',index=False, header=False)
+
+# 定义函数获取文件列表并按照修改时间排序
+def get_sorted_file_list(folder_path):
+    file_list = os.listdir(folder_path)
+    file_list = [f for f in file_list if f.endswith(".yaml")]
+    file_list = sorted(file_list, key=lambda x: os.path.getmtime(os.path.join(folder_path, x)), reverse=True)
+    return file_list

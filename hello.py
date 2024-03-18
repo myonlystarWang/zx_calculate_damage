@@ -84,6 +84,16 @@ def render_hello_page():
         st.image(images[st.session_state.current_index], caption=captions[st.session_state.current_index], use_column_width=True)
 
     with st.expander("【版本更新说明】"):   
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.4</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-19')
+        st.markdown("**BUG修复：**")
+        st.markdown("· 对配置文件下载时的列表显示进行时间倒序排序")
+        st.markdown("· 修复保存配置文件时组队职业和通用技能未保存的BUG")
+        st.markdown("**敬请期待：**")
+        st.markdown("· BOSS混乱诅咒根据选择的职业和队友职业自动计算")
+        st.markdown("· 惊岚职业的技能伤害计算")
+        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
+        
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.3</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-15')
         st.markdown("**BUG修复：**")
@@ -171,6 +181,7 @@ def render_hello_page():
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=88691&highlight=%E5%9B%9B%E4%BB%A3", label=f":blue[全职业四代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=562866&highlight=%E4%B8%89%E4%BB%A3%E6%8A%80%E8%83%BD", label=f":blue[全职业三代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=588740&highlight=%E5%BF%83%E6%B3%95", label=f":blue[全职业心法五代技能效果汇总]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("http://bbs.wanmei.com/forum.php?mod=viewthread&tid=572441", label=f":blue[全职业飞升造化技能汇总]", icon=None, help=None, disabled=False, use_container_width=None)
 
     with col4:
         with st.expander("角色养成"):

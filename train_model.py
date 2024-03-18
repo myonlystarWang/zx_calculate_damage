@@ -9,7 +9,7 @@ import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import os
 
 feature_names = [
     'qixue', 
@@ -32,6 +32,17 @@ prof_options = ["逐霜", "鬼王", "太昊", "惊岚", "涅羽"]
 def train_gradient_boosting_model(prof_idx, data):
     # 筛选出特定职业的数据
     data_for_profession = data[data['zhiye'] == prof_idx]
+
+    # 检查当前职业下的样本个数是否大于5,
+    if len(data_for_profession) < 5:
+        print(f"Error: 对于职业 {prof_idx}，数据集的样本数小于3，无法进行训练。")
+        return
+
+    # 需要对数据进行预处理
+    data_for_profession.loc[data_for_profession['zhiye'] != 1, ['defense', '1%_fangyu', 'zishen_defense']] = 0    
+
+    # 保存预处理后的数据
+    data_for_profession.to_csv(f'./train/{prof_idx}_preprocessed_data.csv', index=False, encoding='utf-8')
 
     # 提取特征和标签
     X = data_for_profession.drop(columns=['zhiye', 'up_damage'])  # 特征
@@ -100,7 +111,7 @@ def train_gradient_boosting_model(prof_idx, data):
     print("均方误差 (MSE):", mse)
 
     # 保存模型
-    joblib.dump(best_model, f'{prof_idx}_best_model.pkl')
+    joblib.dump(best_model, f'./train/{prof_idx}_best_model.pkl')
 
 # 主训练函数
 def train_models():
@@ -124,14 +135,21 @@ def train_models():
     professions = data['zhiye'].unique()
     trained_models = {}
     for prof_idx in professions:
+        print("=======now train the prof %d!", prof_idx)
+
         trained_model = train_gradient_boosting_model(prof_idx, data)
         trained_models[prof_idx] = trained_model
 
     #return trained_models
 
 def model_single_predict(prof_idx, data):
+    model_file = f'./train/{prof_idx}_best_model.pkl'
+    if not os.path.exists(model_file):
+        print(f"Model file '{model_file}' not found.")
+        return None
+        
     # 加载模型
-    loaded_model = joblib.load(f'{prof_idx}_best_model.pkl')    
+    loaded_model = joblib.load(model_file)    
     
     # 使用训练好的模型进行预测
     predicted_label = loaded_model.predict(data)

@@ -185,7 +185,7 @@ def main():
         render_video_page()
 
     st.sidebar.divider()
-    st.sidebar.caption('有问题联系我：📧aben008@hotmail.com')
+    st.sidebar.caption('进仙逐霜群请加狗勺子VX：📧Kcl0831')
     st.sidebar.caption('🖼️ 萝卜 All Rights Reserved © 2024')
     #st.sidebar.markdown("---")
     #st.sidebar.markdown("<p class='copyright'>🖼️ 萝卜 All Rights Reserved © 2024</p>", unsafe_allow_html=True)
