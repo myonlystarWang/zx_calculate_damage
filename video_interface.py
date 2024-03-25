@@ -16,6 +16,43 @@ def render_video_page():
         # 使用st.video函数播放视频
         st.video(video_bytes)
 
+    st.subheader("💡 :blue[(原创)]四象七通关-涅羽秒怪")
+    st.markdown("**主演:** 决战乾坤-广陵明爷")
+    st.markdown("**说明:** 涅羽带天华、焚香、青罗、挂件、太昊通关:red[四象七]👇。")
+
+    with st.expander("展开以查看视频"):   
+        st.markdown("**第一关**")
+        # 打开视频文件
+        video_file = open('./video/guangling_47_1.mp4', 'rb')
+        video_bytes = video_file.read()
+
+        # 使用st.video函数播放视频
+        st.video(video_bytes)
+
+        st.markdown("**第二关**")
+        # 打开视频文件
+        video_file = open('./video/guangling_47_2.mp4', 'rb')
+        video_bytes = video_file.read()
+
+        # 使用st.video函数播放视频
+        st.video(video_bytes)
+
+        st.markdown("**第三关**")
+        # 打开视频文件
+        video_file = open('./video/guangling_47_3.mp4', 'rb')
+        video_bytes = video_file.read()
+
+        # 使用st.video函数播放视频
+        st.video(video_bytes)
+
+        st.markdown("**第五关**")
+        # 打开视频文件
+        video_file = open('./video/guangling_47_5.mp4', 'rb')
+        video_bytes = video_file.read()
+
+        # 使用st.video函数播放视频
+        st.video(video_bytes)
+
     st.subheader("💡 :blue[(转载)]英雄T15.5通关")
     st.markdown("**主演:** 幻月御风-暮雨潇湘【B站 刮痧归司南】")
     st.markdown("**说明:** 归云、涅羽、惊岚、天音、人马、释罗，:red[T15.5英雄本]一二关连过👇。")

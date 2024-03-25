@@ -29,7 +29,7 @@ feature_names = [
 # 主输出选项
 prof_options = ["逐霜", "鬼王", "太昊", "惊岚", "涅羽"]
 
-def train_gradient_boosting_model(prof_idx, data):
+def train_model(prof_idx, data):
     # 筛选出特定职业的数据
     data_for_profession = data[data['zhiye'] == prof_idx]
 
@@ -50,6 +50,8 @@ def train_gradient_boosting_model(prof_idx, data):
 
     # 划分数据集
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
 
     # 初始化梯度提升树回归模型
     model = GradientBoostingRegressor(random_state=42)
@@ -137,7 +139,7 @@ def train_models():
     for prof_idx in professions:
         print("=======now train the prof %d!", prof_idx)
 
-        trained_model = train_gradient_boosting_model(prof_idx, data)
+        trained_model = train_model(prof_idx, data)
         trained_models[prof_idx] = trained_model
 
     #return trained_models

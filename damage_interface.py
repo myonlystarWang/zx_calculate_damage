@@ -306,8 +306,8 @@ def render_damage_calculation_page():
     #计算实际伤害
     st.subheader(f"{skill}实际伤害")
     real_damage = {}
-    real_damage["出爆最小伤害"] = int(damage_coeff.get("累积增伤系数", 0) * damage_coeff.get("总爆伤系数", 0) * basic_damage.get("最小基础伤害", 0))
-    real_damage["出爆最大伤害"] = int(damage_coeff.get("累积增伤系数", 0) * damage_coeff.get("总爆伤系数", 0) * basic_damage.get("最大基础伤害", 0))
+    real_damage["出爆最小伤害"] = min(int(damage_coeff.get("累积增伤系数", 0) * damage_coeff.get("总爆伤系数", 0) * basic_damage.get("最小基础伤害", 0)), max_damage)
+    real_damage["出爆最大伤害"] = min(int(damage_coeff.get("累积增伤系数", 0) * damage_coeff.get("总爆伤系数", 0) * basic_damage.get("最大基础伤害", 0)), max_damage)
 
     # 选择一个伤害值作为目标标签
     target_label = real_damage["出爆最大伤害"]  # 或者选择 real_damage["出爆最小伤害"]

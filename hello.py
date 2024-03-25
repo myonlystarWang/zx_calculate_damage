@@ -84,23 +84,26 @@ def render_hello_page():
         st.image(images[st.session_state.current_index], caption=captions[st.session_state.current_index], use_column_width=True)
 
     with st.expander("【版本更新说明】"):   
-        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.4</h1>", unsafe_allow_html=True) #text-align: center;#📚
-        st.caption('2024-03-19')
-        st.markdown("**BUG修复：**")
-        st.markdown("· 对配置文件下载时的列表显示进行时间倒序排序")
-        st.markdown("· 修复保存配置文件时组队职业和通用技能未保存的BUG")
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.5</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-25')
+        st.markdown("**功能新增：**")
+        st.markdown("· 增加【实用工具】中四象七、T16、多人塔怪物属性等链接")
+        st.markdown("· 增加【视频合集】中涅羽五保一秒四象七视频")
         st.markdown("**敬请期待：**")
         st.markdown("· BOSS混乱诅咒根据选择的职业和队友职业自动计算")
         st.markdown("· 惊岚职业的技能伤害计算")
         st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
         
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.4</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-19')
+        st.markdown("**BUG修复：**")
+        st.markdown("· 对配置文件下载时的列表显示进行时间倒序排序")
+        st.markdown("· 修复保存配置文件时组队职业和通用技能未保存的BUG")
+        
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.3</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-15')
         st.markdown("**BUG修复：**")
         st.markdown("· 修复配置文件保存、下载逻辑")
-        st.markdown("**敬请期待：**")
-        st.markdown("· 惊岚职业的技能伤害计算")
-        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
         
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.2</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-14')
@@ -113,10 +116,6 @@ def render_hello_page():
         st.markdown("· 修正逐霜增益，区分仙逐霜和魔逐霜")
         st.markdown("· 暂时修改保存配置文件到服务器config目录")
         st.markdown("· 锁定技能附加数值，不能修改")
-        st.markdown("**敬请期待：**")
-        st.markdown("· 开发配置文件下载列表，按需下载保存的配置文件")
-        st.markdown("· 惊岚职业的技能伤害计算")
-        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.1</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-13')
@@ -124,9 +123,6 @@ def render_hello_page():
         st.markdown("· 增加从主输出御宝白状态计算其满状态攻击值、气血值、防御值")
         st.markdown("**BUG修复：**")
         st.markdown("· 部分技能和增益计算有误，已修正")
-        st.markdown("**敬请期待：**")
-        st.markdown("· 太昊、惊岚、涅羽职业技能伤害计算")
-        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
 
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.0</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-02')
@@ -161,6 +157,10 @@ def render_hello_page():
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=297828&highlight=BOSS%2B%E5%B1%9E%E6%80%A7", label=f":blue[T13-T15 BOSS属性表]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=391769&highlight=%E6%80%AA%E7%89%A9%2B%E5%B1%9E%E6%80%A7", label=f":blue[劫起空桑BOSS属性表]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=115479&highlight=%E5%85%BD%E7%A5%9E%2B%E5%B1%9E%E6%80%A7", label=f":blue[兽神BOSS属性表]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=361182&highlight=%E5%A4%9A%E4%BA%BA%2B%E6%80%AA%E7%89%A9", label=f":blue[多人塔81-100层怪物属性表]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=595735&extra=page%3D1", label=f":blue[四象七BOSS属性表]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=595737&extra=page%3D1", label=f":blue[T16 BOSS属性表]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=573423&highlight=%E6%B2%89%E6%B8%8A%2B%2B%E5%B1%9E%E6%80%A7", label=f":blue[沉渊之墟怪物属性表]", icon=None, help=None, disabled=False, use_container_width=None)
 
     with col2:
         with st.expander("装备相关"):
@@ -198,6 +198,7 @@ def render_hello_page():
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=474725&highlight=%E5%AE%B6%E6%97%8F%E6%8A%80%E8%83%BD", label=f":blue[家族技能升级消耗]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://gitmind.cn/app/docs/ms39vjmj", label=f":blue[元神轮回世界思维导图]", icon=None, help=None, disabled=False, use_container_width=None)
             st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=88348", label=f":blue[人物传攻略汇总]", icon=None, help=None, disabled=False, use_container_width=None)
+            st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=583266&extra=page%3D1%26filter%3Dtypeid%26typeid%3D267", label=f":blue[魔化百罹分布图]", icon=None, help=None, disabled=False, use_container_width=None)
             #st.page_link("https://bbs.wanmei.com/forum.php?mod=viewthread&tid=528855", label=f":blue[PVE辅助技能汇总]", icon=None, help=None, disabled=False, use_container_width=None)
     
     st.subheader("📽️ 视频合集")
