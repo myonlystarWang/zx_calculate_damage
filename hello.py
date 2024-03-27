@@ -84,15 +84,20 @@ def render_hello_page():
         st.image(images[st.session_state.current_index], caption=captions[st.session_state.current_index], use_column_width=True)
 
     with st.expander("【版本更新说明】"):   
+        st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.6</h1>", unsafe_allow_html=True) #text-align: center;#📚
+        st.caption('2024-03-27')
+        st.markdown("**BUG修复：**")
+        st.markdown("· 修复涅羽伤衣神通遗漏每10万真气兑换1%对怪伤害的问题")
+        st.markdown("**敬请期待：**")
+        st.markdown("· BOSS混乱诅咒根据选择的职业和队友职业自动计算")
+        st.markdown("· 惊岚职业的技能伤害计算")
+        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
+
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.5</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-25')
         st.markdown("**功能新增：**")
         st.markdown("· 增加【实用工具】中四象七、T16、多人塔怪物属性等链接")
         st.markdown("· 增加【视频合集】中涅羽五保一秒四象七视频")
-        st.markdown("**敬请期待：**")
-        st.markdown("· BOSS混乱诅咒根据选择的职业和队友职业自动计算")
-        st.markdown("· 惊岚职业的技能伤害计算")
-        st.markdown("· 从辅助职业御宝白状态计算其满状态攻击值、真气值")
         
         st.markdown("<h1 style='font-size: 28px; color: #333333; font-weight: bold; '>V1.1.4</h1>", unsafe_allow_html=True) #text-align: center;#📚
         st.caption('2024-03-19')

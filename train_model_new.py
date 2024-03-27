@@ -99,9 +99,11 @@ def train_model(prof_idx, data):
     plt.xlabel('up_damage')
     plt.ylabel('Frequency')
     plt.show()
+    '''
 
     # 计算特征与目标变量的相关系数
-    correlation_matrix = data.corr()
+    data_corr = data_for_profession.drop(columns=['zhiye']) 
+    correlation_matrix = data_corr.corr()
     print("\n特征与目标变量的相关系数:")
     print(correlation_matrix['up_damage'])
 
@@ -115,7 +117,6 @@ def train_model(prof_idx, data):
 
     plt.tight_layout()
     plt.show()
-    '''
 
     # 划分数据集
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
