@@ -249,7 +249,7 @@ def all_skill_gains_calculate(my_attributes, skill_gains_para, var_gains_para):
                           200 + number * 100), 4000000)
         print(all_zhenqi)
         skill_gains_para["技能增益_攻击_伤衣神通"] = int((all_zhenqi / 10000))*(350 + fy_shangyishentong_dict.get(my_attributes.get("主输出_玄烛品质_毒祭无常业", '荧炬'), 0))
-        skill_gains_para["技能增益_专注_伤衣神通"] = 70
+        skill_gains_para["技能增益_专注_伤衣神通"] = 70 + int(all_zhenqi /100000)
 
     else:
         pass
