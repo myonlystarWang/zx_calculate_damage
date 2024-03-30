@@ -106,6 +106,10 @@ def train_model(prof_idx, data):
     correlation_matrix = data_corr.corr()
     print("\n特征与目标变量的相关系数:")
     print(correlation_matrix['up_damage'])
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+    plt.title('角色属性与伤害的相关系数的相关性')
+    plt.show()
 
     # 绘制特征与目标变量的散点图
     plt.figure(figsize=(12, 6))
